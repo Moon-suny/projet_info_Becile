@@ -1,4 +1,6 @@
 # projet_info_Becile
+Pygame est necessaire.
+
 Titre : Bécile Contre attaque
 
 Thème : voyage à travers l’espace 
