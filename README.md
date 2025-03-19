@@ -24,8 +24,8 @@ Le joueur tombe sur cette petite boite de conserve arrogante dans un sale état 
 Une Boîte de dialogue s’ouvre proposant au joueur : “veux-tu l'aider ?“
 
 
-		oui						            non
-le rat sur sa tête s’en va et début du mini jeu		On recommence au début du jeu
+si oui:	le rat sur sa tête s’en va et début du mini jeu
+si non : On recommence au début du jeu
 
 
 le premier mini jeu (vert)
