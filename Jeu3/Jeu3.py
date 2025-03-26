@@ -1,36 +1,31 @@
 import pygame
 from pygame.locals import *
  
-def main():
-    # Initialisation de la fenêtre d'affichage
-    pygame.init()
-    screen = pygame.display.set_mode((300, 50))
-    pygame.display.set_caption('Programme Pygame de base')
+#Initialisation de la bibliothèque Pygame
+pygame.init()
+
+screen_width = 1000
+Screen_heigt = 800
+
+screen = pygame.display.set_mode((screen_width, Screen_heigt))
+pygame.display.set_caption('')
+
+
+#Chargement des image
+barre_img = pygame.image.load('img/barre.png')
+Background_img = pygame.image.load('img/Backgrnd.png')
+
+
+#boucle de jeu
+while True:
+
+    screen.blit(Background_img, (0,0))
+    screen.blit(barre_img, (0, 0))
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            exit()
  
-    # Remplissage de l'arrière-plan
-    background = pygame.Surface(screen.get_size())
-    background = background.convert()
-    background.fill((250, 250, 250))
- 
-    # Affichage d'un texte
-    font = pygame.font.Font(None, 36)
-    text = font.render("Salut tout le monde", 1, (10, 10, 10))
-    textpos = text.get_rect()
-    textpos.centerx = background.get_rect().centerx
-    textpos.centery = background.get_rect().centery
-    background.blit(text, textpos)
- 
-    # Afficher le tout dans la fenêtre
-    screen.blit(background, (0, 0))
-    pygame.display.flip()
- 
-    # Boucle d'évènements
-    while 1:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                return
- 
-        screen.blit(background, (0, 0))
-        pygame.display.flip()
- 
-if __name__ == '__main__': main()
+
+    pygame.display.update()
