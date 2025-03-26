@@ -1,0 +1,21 @@
+position dans la fenètre pour les différents cables
+
+- position a droite de l'écran
+pos 1 = (190, 20)
+pos 2 = (190, 145)
+pos 3 = (190, 270)
+pos 4 = (190, 395)
+pos 5 = (190, 520)
+
+- position a gauche de l'écran
+pos A = (530, 20)
+pos B = (530, 145)
+pos C = (530, 270)
+pos D = (530, 395)
+pos E = (530, 520)
+
+- patch image button
+Image_Button = [
+    {"1" : "Jeu1/Img_Button/Logo_Cable_G/1.png", "2" : "Jeu1/Img_Button/Logo_Cable_G/2.png", "3" : "Jeu1/Img_Button/Logo_Cable_G/3.png", "4" : "Jeu1/Img_Button/Logo_Cable_G/4.png", "5" : "Jeu1/Img_Button/Logo_Cable_G/5.png"},
+    {"A" : "Jeu1/Img_Button/Logo_Cable_D/A.png", "B" : "Jeu1/Img_Button/Logo_Cable_D/B.png", "C" : "Jeu1/Img_Button/Logo_Cable_D/C.png", "D" : "Jeu1/Img_Button/Logo_Cable_D/D.png", "C" : "Jeu1/Img_Button/Logo_Cable_D/E.png"},
+]
