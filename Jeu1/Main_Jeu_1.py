@@ -1,6 +1,6 @@
 import pygame
 import sys
-from lib_jeu1_pygame import create_button, check_button_clicked
+from lib_jeu1_pygame import create_button, check_button_clicked, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
 pygame.init()
@@ -18,12 +18,18 @@ fond = fond.convert()
 # Couleurs
 white = (255, 255, 255)
 
-# Propriétés des boutons
-button1_rect = pygame.Rect(530, 520, 200, 50)  # Taille initiale, sera ajustée à celle de l'image
-button1_text = ""  # Si image, ne pas mettre de texte
-button1_image = "Jeu1/Img_Button/Logo_Cable_D/A.png"
-button1_scale_factor = 0.1  # Facteur d'échelle pour le bouton 1
+# Liste des boutons avec leurs propriétés
+buttons = [
+    {   # Bouton 1
+        "name" : "Bouton 1",
+        "rect": pygame.Rect(530, 520, 0, 0),  # Taille initiale, sera ajustée à celle de l'image
+        "text": "",  # Texte (vide si image)
+        "image_path": "Jeu1/Img_Button/Logo_cable_test.png", # Chemin/nom de l'image (vide si texte)
+        "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+    },
+]
 
+# fonction principale
 def main():
     while True:
         for event in pygame.event.get():
@@ -33,14 +39,25 @@ def main():
                 sys.exit()
 
             # Vérifier si un bouton est cliqué
-            if check_button_clicked(button1_rect, event):
-                print("Bouton 1 cliqué !")
+            for button in buttons:
+                if check_button_clicked(button["rect"], event):
+                    print(f"{button['name']} cliqué !")
 
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))
 
+
         # Dessiner les boutons
-        create_button(screen, button1_rect, text=button1_text, image_path=button1_image, scale_factor=button1_scale_factor)
+        for button in buttons:
+            create_button(
+                screen,
+                button["rect"],
+                text=button["text"],
+                image_path=button["image_path"],
+                scale_factor=button["scale_factor"],
+                font=button.get("font"),
+                button_color=button.get("button_color", DEFAULT_BUTTON_COLOR)
+            )
 
         # Mettre à jour l'affichage
         pygame.display.flip()
