@@ -110,6 +110,8 @@ Liste_reponse = ["A", "B", "C", "D", "E"]
 First_button_use = None
 Second_button_use = None
 
+# variables de stockage des réponses
+Rep_give = set()
 
 # fonction principale
 def main():
@@ -147,12 +149,18 @@ def main():
                             print("Deuxième bouton cliqué :", Second_button_use)
 
                             # Vérifier si les boutons cliqués correspondent à la réponse
-                            check_response(First_button_use, Second_button_use, Liste_reponse)
+                            if check_response(First_button_use, Second_button_use, Liste_reponse) is True:
+
+                                ## Vérifier si la réponse n'a pas déjà été donnée et ajouter à la liste si ce n'est pas le cas
+                                if (First_button_use + Second_button_use) and (Second_button_use + First_button_use) not in Rep_give:
+                                    Rep_give.add(First_button_use + Second_button_use)
 
                             # Réinitialiser les boutons pour un nouveau tour
                             First_button_use = None
                             Second_button_use = None
                             waiting_for_second_click = False
+
+                            print("Réponse donnée :", Rep_give)
 
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))

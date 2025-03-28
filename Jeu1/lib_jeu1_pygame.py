@@ -4,6 +4,8 @@ import pygame
 DEFAULT_BUTTON_COLOR = (200, 200, 200)
 DEFAULT_TEXT_COLOR = (0, 0, 0)
 
+# le texte en orange permet de voir des caracteristiques de la fonction lorsque l'on reste dessus dans le fichier d'appel 
+
 ################################################################################
 #                       Fonction de création de boutons
 ################################################################################
@@ -29,7 +31,7 @@ def create_button(
     :param image_path: Chemin de l'image à utiliser comme bouton.
     :param scale_factor: Facteur d'échelle pour redimensionner l'image et le rectangle du bouton.
     """
-    
+
     if image_path:
 
         # Charger l'image
