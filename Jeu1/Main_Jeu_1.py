@@ -1,6 +1,6 @@
 import pygame
 import sys
-from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, DEFAULT_BUTTON_COLOR
+from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
 pygame.init()
@@ -19,88 +19,91 @@ fond = fond.convert()
 vert = (0, 255, 0)
 rouge = (255, 0, 0)
 
-# position a droite de l'écran
-pos_1 = (190, 20, 0, 0)
-pos_2 = (190, 145, 0, 0)
-pos_3 = (190, 270, 0, 0)
-pos_4 = (190, 395, 0, 0)
-pos_5 = (190, 520, 0, 0)
+# Dictionnaire initial des positions
+positions = {
+    "pos_1": (190, 20, 0, 0),
+    "pos_2": (190, 145, 0, 0),
+    "pos_3": (190, 270, 0, 0),
+    "pos_4": (190, 395, 0, 0),
+    "pos_5": (190, 520, 0, 0),
+    "pos_A": (530, 20, 0, 0),
+    "pos_B": (530, 145, 0, 0),
+    "pos_C": (530, 270, 0, 0),
+    "pos_D": (530, 395, 0, 0),
+    "pos_E": (530, 520, 0, 0)
+}
 
-# position a gauche de l'écran
-pos_A = (530, 20, 0, 0)
-pos_B = (530, 145, 0, 0)
-pos_C = (530, 270, 0, 0)
-pos_D = (530, 395, 0, 0)
-pos_E = (530, 520, 0, 0)
+# Mélanger les positions
+shuffle_output_positions = shuffle_positions(positions)
 
 # Liste des boutons avec leurs propriétés
 buttons = [
     {   # Bouton 1
         "name" : "1",
-        "rect": pygame.Rect(pos_1),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_1"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/1.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton 2
         "name" : "2",
-        "rect": pygame.Rect(pos_2),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_2"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/2.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton 3
         "name" : "3",
-        "rect": pygame.Rect(pos_3),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_3"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/3.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton 4
         "name" : "4",
-        "rect": pygame.Rect(pos_4),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_4"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/4.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton 5
         "name" : "5",
-        "rect": pygame.Rect(pos_5),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_5"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/5.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton A
         "name" : "A",
-        "rect": pygame.Rect(pos_A),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_A"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/A.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton B
         "name" : "B",
-        "rect": pygame.Rect(pos_B),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_B"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/B.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton C
         "name" : "C",
-        "rect": pygame.Rect(pos_C),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_C"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/C.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton D
         "name" : "D",
-        "rect": pygame.Rect(pos_D),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_D"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/D.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
     },
     {   # Bouton E
         "name" : "E",
-        "rect": pygame.Rect(pos_E),  # Taille initiale, sera ajustée à celle de l'image
+        "rect": pygame.Rect(shuffle_output_positions["pos_E"]),  # Taille initiale, sera ajustée à celle de l'image
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/E.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
@@ -163,9 +166,7 @@ def main():
                             First_button_use = None
                             Second_button_use = None
                             waiting_for_second_click = False
-
-                            print("Réponse donnée :", Rep_give)
-
+    
     
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))

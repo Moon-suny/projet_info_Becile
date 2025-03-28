@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Couleurs par défaut
 DEFAULT_BUTTON_COLOR = (200, 200, 200)
@@ -73,6 +74,7 @@ def check_button_clicked(rect, event):
     :param event: Événement Pygame à vérifier.
     :return: True si le bouton a été cliqué, sinon False.
     """
+
     if event.type == pygame.MOUSEBUTTONDOWN:
         return rect.collidepoint(event.pos)
     return False
@@ -130,6 +132,7 @@ def draw_progress_bar(screen, current_progress, total_progress, x, y, width, hei
     :param color_1: Couleur de la barre de fond (rouge).
     :param color_2: Couleur de la barre de remplissage (vert).
     """
+
     # Dessiner la barre de chargement rouge (fond)
     pygame.draw.rect(screen, color_1, (x, y, width, height))
 
@@ -138,3 +141,36 @@ def draw_progress_bar(screen, current_progress, total_progress, x, y, width, hei
 
     # Dessiner la barre de chargement verte (remplissage)
     pygame.draw.rect(screen, color_2, (x, y + height - hauteur_verte, width, hauteur_verte))
+
+################################################################################
+#                       Fonction de mélange des positions
+################################################################################
+
+def shuffle_positions(positions):
+    """
+    Mélange les positions des chiffres et des lettres séparément.
+
+    :param positions: Dictionnaire contenant les positions avec des clés comme 'pos_1', 'pos_2', ..., 'pos_A', 'pos_B', ...
+    :return: Dictionnaire avec les positions mélangées.
+    """
+    # Séparer les positions en deux groupes
+    number_positions = [positions[f"pos_{i}"] for i in range(1, 6)]
+    letter_positions = [positions[f"pos_{letter}"] for letter in "ABCDE"]
+
+    # Mélanger les positions
+    random.shuffle(number_positions)
+    random.shuffle(letter_positions)
+
+    # Créer un nouveau dictionnaire avec les positions mélangées
+    shuffle_output_positions = {}
+
+    # Utiliser une liste de nombres pour les clés des positions des chiffres
+    number_keys = [f"pos_{i}" for i in range(1, 6)]
+    for key, pos in zip(number_keys, number_positions):
+        shuffle_output_positions[key] = pos
+
+    # Utiliser les lettres directement pour les clés des positions des lettres
+    for letter, pos in zip("ABCDE", letter_positions):
+        shuffle_output_positions[f"pos_{letter}"] = pos
+
+    return shuffle_output_positions
