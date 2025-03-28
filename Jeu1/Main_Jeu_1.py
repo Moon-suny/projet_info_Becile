@@ -1,6 +1,6 @@
 import pygame
 import sys
-from lib_jeu1_pygame import create_button, check_button_clicked, DEFAULT_BUTTON_COLOR
+from lib_jeu1_pygame import create_button, check_button_clicked, check_response, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
 pygame.init()
@@ -14,9 +14,6 @@ pygame.display.set_caption("Jeu 1")
 fond = pygame.image.load("Jeu1/Fond_Screen/Fond_screen_cable_jeu_1.png")
 fond = pygame.transform.scale(fond, (window_size))
 fond = fond.convert()
-
-# Couleurs
-white = (255, 255, 255)
 
 # position a droite de l'écran
 pos_1 = (190, 20, 0, 0)
@@ -106,23 +103,59 @@ buttons = [
     },
 ]
 
+# liste de validation des reponses
+Liste_reponse = ["A", "B", "C", "D", "E"]
+
+# variables de stockage des boutons cliqués
+First_button_use = None
+Second_button_use = None
+
+
 # fonction principale
 def main():
+    global First_button_use, Second_button_use
+    waiting_for_second_click = False
+
+
+    # Boucle principale du jeu
     while True:
+
+        # Gestion des événements
         for event in pygame.event.get():
-            # Vérifier si la croix est cliqué pour fermer la fenêtre
+
+            # Vérifier si la croix est cliquée pour fermer la fenêtre
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
             # Vérifier si un bouton est cliqué
-            for button in buttons:
-                if check_button_clicked(button["rect"], event):
-                    print(f"{button['name']} cliqué !")
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for button in buttons:
+
+                    # Vérifier si le bouton a été cliqué
+                    if check_button_clicked(button["rect"], event):
+
+                        if not waiting_for_second_click:
+                            # Premier clic détecté
+                            First_button_use = button["name"]
+                            print("Premier bouton cliqué :", First_button_use)
+                            waiting_for_second_click = True
+
+                        else:
+                            # Deuxième clic détecté
+                            Second_button_use = button["name"]
+                            print("Deuxième bouton cliqué :", Second_button_use)
+
+                            # Vérifier si les boutons cliqués correspondent à la réponse
+                            check_response(First_button_use, Second_button_use, Liste_reponse)
+
+                            # Réinitialiser les boutons pour un nouveau tour
+                            First_button_use = None
+                            Second_button_use = None
+                            waiting_for_second_click = False
 
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))
-
 
         # Dessiner les boutons
         for button in buttons:
