@@ -111,3 +111,30 @@ def check_response(first_button, second_button, response_list):
 
     print("Réponse incorrecte !")
     return False
+
+################################################################################
+#                Fonctions de gestion de la barre de progression
+################################################################################
+
+def draw_progress_bar(screen, current_progress, total_progress, x, y, width, height, color_1= (255, 0, 0), color_2=(0, 255, 0)):    
+    """
+    Dessine une barre de progression.
+
+    :param screen: Surface Pygame sur laquelle dessiner la barre.
+    :param current_progress: Progression actuelle (nombre de réponses correctes).
+    :param total_progress: Progression totale (nombre total de réponses).
+    :param x: Coordonnée x de la position de la barre.
+    :param y: Coordonnée y de la position de la barre.
+    :param width: Largeur de la barre.
+    :param height: Hauteur totale de la barre.
+    :param color_1: Couleur de la barre de fond (rouge).
+    :param color_2: Couleur de la barre de remplissage (vert).
+    """
+    # Dessiner la barre de chargement rouge (fond)
+    pygame.draw.rect(screen, color_1, (x, y, width, height))
+
+    # Calculer la hauteur de la barre verte
+    hauteur_verte = height * current_progress / total_progress
+
+    # Dessiner la barre de chargement verte (remplissage)
+    pygame.draw.rect(screen, color_2, (x, y + height - hauteur_verte, width, hauteur_verte))

@@ -1,6 +1,6 @@
 import pygame
 import sys
-from lib_jeu1_pygame import create_button, check_button_clicked, check_response, DEFAULT_BUTTON_COLOR
+from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
 pygame.init()
@@ -14,6 +14,10 @@ pygame.display.set_caption("Jeu 1")
 fond = pygame.image.load("Jeu1/Fond_Screen/Fond_screen_cable_jeu_1.png")
 fond = pygame.transform.scale(fond, (window_size))
 fond = fond.convert()
+
+# Couleur
+vert = (0, 255, 0)
+rouge = (255, 0, 0)
 
 # position a droite de l'écran
 pos_1 = (190, 20, 0, 0)
@@ -103,12 +107,12 @@ buttons = [
     },
 ]
 
-# liste de validation des reponses
-Liste_reponse = ["A", "B", "C", "D", "E"]
-
 # variables de stockage des boutons cliqués
 First_button_use = None
 Second_button_use = None
+
+# liste de validation des reponses
+Liste_reponse = ["A", "B", "C", "D", "E"]
 
 # variables de stockage des réponses
 Rep_give = set()
@@ -149,10 +153,10 @@ def main():
                             print("Deuxième bouton cliqué :", Second_button_use)
 
                             # Vérifier si les boutons cliqués correspondent à la réponse
-                            if check_response(First_button_use, Second_button_use, Liste_reponse) is True:
+                            if check_response(First_button_use, Second_button_use, Liste_reponse) is True: # is true remplace ici == True
 
                                 ## Vérifier si la réponse n'a pas déjà été donnée et ajouter à la liste si ce n'est pas le cas
-                                if (First_button_use + Second_button_use) and (Second_button_use + First_button_use) not in Rep_give:
+                                if ((First_button_use + Second_button_use) and (Second_button_use + First_button_use)) not in Rep_give: # not in Rep_give remplace
                                     Rep_give.add(First_button_use + Second_button_use)
 
                             # Réinitialiser les boutons pour un nouveau tour
@@ -162,6 +166,7 @@ def main():
 
                             print("Réponse donnée :", Rep_give)
 
+    
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))
 
@@ -176,6 +181,9 @@ def main():
                 font=button.get("font"),
                 button_color=button.get("button_color", DEFAULT_BUTTON_COLOR)
             )
+
+        # Calcul et dessiner la barre de progression
+        draw_progress_bar(screen, len(Rep_give), len(Liste_reponse), 380, 50, 40, 500, rouge, vert)
 
         # Mettre à jour l'affichage
         pygame.display.flip()
