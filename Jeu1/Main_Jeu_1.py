@@ -18,6 +18,7 @@ fond = fond.convert()
 # Couleur
 vert = (0, 255, 0)
 rouge = (255, 0, 0)
+bleu = (0, 0, 255)
 
 # Dictionnaire initial des positions
 positions = {
@@ -44,6 +45,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/1.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton 2
         "name" : "2",
@@ -51,6 +55,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/2.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton 3
         "name" : "3",
@@ -58,6 +65,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/3.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton 4
         "name" : "4",
@@ -65,6 +75,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/4.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton 5
         "name" : "5",
@@ -72,6 +85,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_G/5.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton A
         "name" : "A",
@@ -79,6 +95,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/A.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton B
         "name" : "B",
@@ -86,6 +105,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/B.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton C
         "name" : "C",
@@ -93,6 +115,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/C.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton D
         "name" : "D",
@@ -100,6 +125,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/D.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
     {   # Bouton E
         "name" : "E",
@@ -107,6 +135,9 @@ buttons = [
         "text": "",  # Texte (vide si image)
         "image_path": "Jeu1/Img_Button/Logo_Cable_D/E.png", # Chemin/nom de l'image (vide si texte)
         "scale_factor": 0.1,  # Facteur d'échelle pour le bouton 1
+        "outline_color": bleu,  # Couleur du contour
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "outline_width": 2,  # Largeur du contour
     },
 ]
 
@@ -143,6 +174,7 @@ def main():
 
                     # Vérifier si le bouton a été cliqué
                     if check_button_clicked(button["rect"], event):
+                        button["is_clicked"] = True  # Mettre à jour l'état du bouton cliqué
 
                         if not waiting_for_second_click:
                             # Premier clic détecté
@@ -161,12 +193,18 @@ def main():
                                 ## Vérifier si la réponse n'a pas déjà été donnée et ajouter à la liste si ce n'est pas le cas
                                 if ((First_button_use + Second_button_use) and (Second_button_use + First_button_use)) not in Rep_give: # not in Rep_give remplace
                                     Rep_give.add(First_button_use + Second_button_use)
+                            
+                            else: # Réponse incorrecte
+                                # Réinitialiser l'état des boutons cliqués
+                                for button in buttons:
+                                    if button["name"] == First_button_use or button["name"] == Second_button_use:
+                                        button["is_clicked"] = False
 
                             # Réinitialiser les boutons pour un nouveau tour
                             First_button_use = None
                             Second_button_use = None
                             waiting_for_second_click = False
-    
+
     
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))
@@ -174,13 +212,15 @@ def main():
         # Dessiner les boutons
         for button in buttons:
             create_button(
-                screen,
-                button["rect"],
+                screen, button["rect"],
                 text=button["text"],
                 image_path=button["image_path"],
                 scale_factor=button["scale_factor"],
                 font=button.get("font"),
-                button_color=button.get("button_color", DEFAULT_BUTTON_COLOR)
+                button_color=button.get("button_color", DEFAULT_BUTTON_COLOR),
+                outline_color=button.get("outline_color"),
+                is_clicked=button.get("is_clicked"),
+                outline_width=button.get("outline_width")
             )
 
         # Calcul et dessiner la barre de progression

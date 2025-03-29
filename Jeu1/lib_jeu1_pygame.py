@@ -18,11 +18,14 @@ def create_button(
         text="",
         font=None,
         image_path=None,
-        scale_factor=1.0
+        scale_factor=1.0,
+        outline_color=None,
+        is_clicked=False,
+        outline_width=2,
         ):
-    
     """
     Crée et dessine un bouton sur l'écran. Peut utiliser une image comme bouton.
+    Dessine un contour si le bouton est cliqué.
 
     :param screen: Surface Pygame sur laquelle dessiner le bouton.
     :param rect: Rectangle définissant la position initiale et la taille du bouton.
@@ -31,27 +34,23 @@ def create_button(
     :param font: Police de texte à utiliser. Si None, utilise la police par défaut.
     :param image_path: Chemin de l'image à utiliser comme bouton.
     :param scale_factor: Facteur d'échelle pour redimensionner l'image et le rectangle du bouton.
+    :param outline_color: Couleur du contour à dessiner lorsque le bouton est cliqué.
+    :param is_clicked: Indique si le bouton est cliqué.
+    :param outline_width: Largeur du contour à dessiner lorsque le bouton est cliqué.
     """
 
     if image_path:
-
         # Charger l'image
         image = pygame.image.load(image_path)
-
         # Obtenir la taille de l'image
         image_rect = image.get_rect()
-
         # Mettre à jour la taille du rectangle pour correspondre à celle de l'image, en appliquant le facteur d'échelle
         rect.width, rect.height = int(image_rect.width * scale_factor), int(image_rect.height * scale_factor)
-
         # Redimensionner l'image
         image = pygame.transform.scale(image, (rect.width, rect.height))
-
         # Dessiner l'image
         screen.blit(image, rect.topleft)
-
     else:
-
         # Dessiner le rectangle du bouton
         pygame.draw.rect(screen, button_color, rect)
 
@@ -61,6 +60,10 @@ def create_button(
     text_surface = font.render(text, True, DEFAULT_TEXT_COLOR)
     text_rect = text_surface.get_rect(center=rect.center)
     screen.blit(text_surface, text_rect)
+
+    # Dessiner le contour si le bouton est cliqué
+    if is_clicked and outline_color:
+        pygame.draw.rect(screen, outline_color, rect, outline_width) # Dessiner le contour du bouton
 
 ################################################################################
 #               Fonction de vérification des clics sur les boutons
