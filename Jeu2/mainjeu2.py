@@ -16,7 +16,7 @@ player_img = pygame.transform.scale (player_img,(100,100))
 
 #initialisation du mechant
 mechant_img = pygame.image.load("jeu2/img/Logo_cable_test.png")
-mechant_x, mechant_y = screen_x - 60 , screen_y/2 # position initiale du mechant
+mechant_x, mechant_y = screen_x - 60 , 50 # position initiale du mechant
 mechant_img = pygame.transform.scale(mechant_img,(50,50)) #taille du méchant
 speed_mechant = 14
 
@@ -32,6 +32,10 @@ tonneau_x, tonneau_y = screen_x - 50, screen_y/2
 tonneau_lance = False # savoir si le tonneau est lancer
 tonneau_img = pygame.transform.scale(tonneau_img,(30,30))
 
+# toute les variables de temps pour le tire du projectile
+chargement_tire = 1000
+temps = pygame.time.get_ticks()
+dernier_tire = 100
 
 
 # coordonner du joueur
@@ -43,15 +47,12 @@ tonneau_taille_x, tonneau_taille_y =  tonneau_img.get_width(), tonneau_img.get_h
 
 
 #fonction de mise a feu
-def tire():
-    global tonneau_x, mechant_x,player_x   
-    tonneau_y = mechant_y #position initiale sur le mechant
-    tonneau_x = mechant_x
-    tonneau_lance = True
-
-
-
-
+def ini_du_tire():
+    global tonneau_x, mechant_x, tonneau_y, tonneau_lance, dernier_tire    
+    if not tonneau_lance and temps - dernier_tire > chargement_tire :
+        tonneau_x, tonneau_y = mechant_x, mechant_y #position initiale sur le mechant
+        tonneau_lance = True
+    dernier_tire = pygame.time.get_ticks()
 
 
 running = True
@@ -80,20 +81,15 @@ while running:
                 mechant_y -= speed_mechant
             elif mechant_y < player_y :
                 mechant_y += speed_mechant
-        
         dernier_deplacement = time_act
     
     # tire de dechet
-    if abs(player_y - mechant_y) < 10:
-        tire()
+    if abs(player_y - mechant_y) < 20 :
+        ini_du_tire()
     if tonneau_lance :
-        tonneau_y -= 5
-        if tonneau_y < 0 :
+        tonneau_x -= 5
+        if tonneau_x < 0 :
             tonneau_lance = False
-
-
-    
-    
 
 
     # Affichage
