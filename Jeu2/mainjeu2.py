@@ -1,4 +1,5 @@
 import pygame
+import random 
 from pygame.locals import *
 
 pygame.init()
@@ -24,18 +25,21 @@ speed_mechant = 14
 time_att = 50
 dernier_deplacement = pygame.time.get_ticks()
 
-
-
 #initialisation des tonneaux à éviter
 tonneau_img = pygame.image.load("jeu2/img/Roue.gif")
 tonneau_x, tonneau_y = screen_x - 50, screen_y/2
 tonneau_lance = False # savoir si le tonneau est lancer
 tonneau_img = pygame.transform.scale(tonneau_img,(30,30))
 
+
+# initialisation des obsatcles a éviter
+dechets= []
+dernier_dechet = -1000
+intervalle_dechet = 2000
+
 # toute les variables de temps pour le tire du projectile
 chargement_tire = 1000
-temps = pygame.time.get_ticks()
-dernier_tire = 100
+dernier_tire = 0
 
 
 # coordonner du joueur
@@ -48,11 +52,16 @@ tonneau_taille_x, tonneau_taille_y =  tonneau_img.get_width(), tonneau_img.get_h
 
 #fonction de mise a feu
 def ini_du_tire():
-    global tonneau_x, mechant_x, tonneau_y, tonneau_lance, dernier_tire    
-    if not tonneau_lance and temps - dernier_tire > chargement_tire :
+    global tonneau_x, mechant_x, tonneau_y, tonneau_lance, dernier_tire
+    if not tonneau_lance and pygame.time.get_ticks() - dernier_tire > chargement_tire :
         tonneau_x, tonneau_y = mechant_x, mechant_y #position initiale sur le mechant
         tonneau_lance = True
-    dernier_tire = pygame.time.get_ticks()
+        dernier_tire = pygame.time.get_ticks()
+
+#création des mask
+player_mask = pygame.mask.from_surface(player_img)
+tonneau_mask = pygame.mask.from_surface(tonneau_img)
+
 
 
 running = True
@@ -83,14 +92,28 @@ while running:
                 mechant_y += speed_mechant
         dernier_deplacement = time_act
     
-    # tire de dechet
+    #apparition alétatoire de dechet
+    if pygame.time.get_ticks() - dernier_dechet > intervalle_dechet :
+        aleatoire_y = random.randint(50, screen_y-50)
+        dechets.append([screen_x, aleatoire_y])
+        dernier_dechet = pygame.time.get_ticks()
+    
+    for dechet in dechets :
+        dechet[0] -= 2
+        if dechet[0] < 0 :
+            dechets.remove(dechet)
+    
+    # tire de tonneau
     if abs(player_y - mechant_y) < 20 :
         ini_du_tire()
     if tonneau_lance :
-        tonneau_x -= 5
+        tonneau_x -= 3
         if tonneau_x < 0 :
             tonneau_lance = False
-
+    if tonneau_lance and player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
+        print("game over")
+        pygame.time.delay (1000)
+        running = False
 
     # Affichage
     screen.fill((224, 176, 255 ))
@@ -98,7 +121,8 @@ while running:
     screen.blit(mechant_img,(mechant_x,mechant_y))
     if tonneau_lance :
         screen.blit(tonneau_img,(tonneau_x, tonneau_y))
-    
+    for dechet in dechets :
+        screen.blit(tonneau_img,(dechet[0], dechet[1]))
     pygame.display.update()  
 
 pygame.quit()
