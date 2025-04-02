@@ -1,5 +1,6 @@
-import pygame
 import sys
+import pygame
+import random
 from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
@@ -147,6 +148,7 @@ Second_button_use = None
 
 # liste de validation des reponses
 Liste_reponse = ["A", "B", "C", "D", "E"]
+random.shuffle(Liste_reponse) # Mélanger la liste de réponses pour le jeu
 
 # variables de stockage des réponses
 Rep_give = set()
