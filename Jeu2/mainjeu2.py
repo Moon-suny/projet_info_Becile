@@ -26,18 +26,18 @@ time_att = 50
 dernier_deplacement = pygame.time.get_ticks()
 
 #initialisation des tonneaux à éviter
-tonneau_img = pygame.image.load("jeu2/img/Roue.gif")
+tonneau_img = pygame.image.load("jeu2/img/imgpoubelle.png")
 tonneau_x, tonneau_y = screen_x - 50, screen_y/2
 tonneau_lance = False # savoir si le tonneau est lancer
-tonneau_img = pygame.transform.scale(tonneau_img,(30,30))
+tonneau_img = pygame.transform.scale(tonneau_img,(40,40))
 
 
 # initialisation des obsatcles a éviter
 dechets= []
 dernier_dechet = -1000
-intervalle_dechet = 2000
+intervalle_dechet = 1500
 
-# toute les variables de temps pour le tire du projectile
+ # toute les variables de temps pour le tire du projectile
 chargement_tire = 1000
 dernier_tire = 0
 
@@ -113,6 +113,12 @@ while running:
     if tonneau_lance and player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
         print("game over")
         pygame.time.delay (1000)
+        running = False
+
+ #fin du jeu après 30 secondes
+    if pygame.time.get_ticks() > 30000 :
+        print("win")
+        pygame.time.delay(1000)
         running = False
 
     # Affichage
