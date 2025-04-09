@@ -22,6 +22,15 @@ player_img_orig = pygame.image.load("Jeu3/img/10581090.png").convert_alpha()
 barre_img = pygame.image.load('Jeu3/img/barre.png').convert_alpha()
 # Fond d'écran
 Background_img = pygame.image.load('Jeu3/img/Backgrnd.png').convert()
+# objectif
+objectif_img = pygame.image.load('Jeu3/img/piéce.png').convert_alpha()
+
+
+# configuration de l'objectif
+objectif_width = 25
+objectif_height = 25
+objectif_img = pygame.transform.scale(objectif_img, (objectif_width, objectif_height))
+objectif_rect = objectif_img.get_rect()
 
 
 # --- Configuration du Joueur ---
@@ -29,8 +38,8 @@ player_width = 55
 player_height = 75
 player_img = pygame.transform.scale(player_img_orig, (player_width, player_height))
 player_rect = player_img.get_rect()
-player_rect.x = 100
-player_rect.y = 100
+player_rect.x = 946
+player_rect.y = 703
 player_vy = 0
 player_mask = pygame.mask.from_surface(player_img)
 on_ground = False
@@ -64,6 +73,10 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            x,y = pygame.mouse.get_pos()
+            print("curseur position:", x, y)
+    
 
             
 
