@@ -140,6 +140,16 @@ buttons = [
         "is_clicked": False,  # Indique si le bouton est cliqué
         "outline_width": 2,  # Largeur du contour
     },
+    {   # Bouton Jeu gagner
+        "name" : "Jeu gagner",
+        "rect": pygame.Rect((250, 100, 100, 100)),  # Taille initiale, sera ajustée à celle de l'image
+        "text": "Bravo le cerveau est réparer",  # Texte (vide si image)
+        "image_path": None, # Chemin/nom de l'image (vide si texte)
+        "scale_factor": None,  # Facteur d'échelle pour le bouton 1
+        "is_clicked": False,  # Indique si le bouton est cliqué
+        "button_color": (255,0,0),  # Couleur du bouton (rouge)
+        "button_state": False,  # Indique si le bouton est actif (a programmer dans lib_jeu1_pygame.py)
+    },
 ]
 
 # variables de stockage des boutons cliqués
