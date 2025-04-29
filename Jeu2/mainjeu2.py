@@ -1,32 +1,33 @@
 import pygame
 import random 
 from pygame.locals import *
+from PIL import Image, ImageSequence
 
 pygame.init()
 
 # écran principal
-screen_x, screen_y = 1000, 600
+screen_x, screen_y = 1000, 800
 screen = pygame.display.set_mode((screen_x, screen_y))
 pygame.display.set_caption("Jeu 2 : Enfuis-toi !")
 
 # Initialisation du player
 player_img = pygame.image.load("jeu2/img/10581090.png").convert_alpha()
 player_x, player_y = 100, screen_y/2  # Position initiale
-speed_player = 2  # Vitesse du joueur
+speed_player = 1.5  # Vitesse du joueur
 player_img = pygame.transform.scale (player_img,(100,100))
 
 #initialisation du mechant
 mechant_img = pygame.image.load("jeu2/img/Logo_cable_test.png")
 mechant_x, mechant_y = screen_x - 60 , 50 # position initiale du mechant
 mechant_img = pygame.transform.scale(mechant_img,(50,50)) #taille du méchant
-speed_mechant = 14
+speed_mechant = 3
 
 # ne pas suivre le joueur a la trace
 time_att = 50
 dernier_deplacement = pygame.time.get_ticks()
 
 #initialisation des tonneaux à éviter
-tonneau_img = pygame.image.load("jeu2/img/imgpoubelle.png")
+tonneau_img = pygame.image.load("jeu2/img/Logo_cable_test.png")
 tonneau_x, tonneau_y = screen_x - 50, screen_y/2
 tonneau_lance = False # savoir si le tonneau est lancer
 tonneau_img = pygame.transform.scale(tonneau_img,(40,40))
@@ -99,7 +100,7 @@ while running:
         dernier_dechet = pygame.time.get_ticks()
     
     for dechet in dechets :
-        dechet[0] -= 2
+        dechet[0] -= 1.5 # vitesse de dechet
         if dechet[0] < 0 :
             dechets.remove(dechet)
     
@@ -107,7 +108,7 @@ while running:
     if abs(player_y - mechant_y) < 20 :
         ini_du_tire()
     if tonneau_lance :
-        tonneau_x -= 3
+        tonneau_x -= 2 # vitesse du tonneau
         if tonneau_x < 0 :
             tonneau_lance = False
     if tonneau_lance and player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
