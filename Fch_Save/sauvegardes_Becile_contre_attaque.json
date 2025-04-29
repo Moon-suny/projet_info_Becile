@@ -1,0 +1,37 @@
+{
+    "sauvegardes": {
+        "Maxime": {
+            "mini_jeu1": {
+                "niv_finish": false
+            },
+            "mini_jeu2": {
+                "niv_finish": false
+            },
+            "mini_jeu3": {
+                "niv_finish": false
+            }
+        },
+        "Pierre_Eloi": {
+            "mini_jeu1": {
+                "niv_finish": false
+            },
+            "mini_jeu2": {
+                "niv_finish": false
+            },
+            "mini_jeu3": {
+                "niv_finish": false
+            }
+        },
+        "Clement": {
+            "mini_jeu1": {
+                "niv_finish": false
+            },
+            "mini_jeu2": {
+                "niv_finish": false
+            },
+            "mini_jeu3": {
+                "niv_finish": false
+            }
+        }
+    }
+}

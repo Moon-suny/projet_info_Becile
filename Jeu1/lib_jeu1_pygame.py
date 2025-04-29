@@ -1,15 +1,23 @@
+# ============================================================
+# LIBRAIRIE : Fonctions pour le mini-jeu 1 avec Pygame
+# ============================================================
+# Ce module contient des fonctions pour gérer les boutons,
+# les événements, les réponses, la barre de progression,
+# et le mélange des positions dans le mini-jeu 1.
+# ============================================================
+
 import pygame
 import random
 
-# Couleurs par défaut
-DEFAULT_BUTTON_COLOR = (200, 200, 200)
-DEFAULT_TEXT_COLOR = (0, 0, 0)
+# ------------------------------------------------------------
+# CONSTANTES
+# ------------------------------------------------------------
+DEFAULT_BUTTON_COLOR = (200, 200, 200)  # Couleur par défaut des boutons
+DEFAULT_TEXT_COLOR = (0, 0, 0)          # Couleur par défaut du texte
 
-# le texte en orange permet de voir des caracteristiques de la fonction lorsque l'on reste dessus dans le fichier d'appel 
-
-################################################################################
-#                       Fonction de création de boutons
-################################################################################
+# ------------------------------------------------------------
+# FONCTIONS DE GESTION DES BOUTONS
+# ------------------------------------------------------------
 
 def create_button(
         screen,
@@ -38,17 +46,12 @@ def create_button(
     :param is_clicked: Indique si le bouton est cliqué.
     :param outline_width: Largeur du contour à dessiner lorsque le bouton est cliqué.
     """
-
     if image_path:
-        # Charger l'image
+        # Charger et redimensionner l'image
         image = pygame.image.load(image_path)
-        # Obtenir la taille de l'image
         image_rect = image.get_rect()
-        # Mettre à jour la taille du rectangle pour correspondre à celle de l'image, en appliquant le facteur d'échelle
         rect.width, rect.height = int(image_rect.width * scale_factor), int(image_rect.height * scale_factor)
-        # Redimensionner l'image
         image = pygame.transform.scale(image, (rect.width, rect.height))
-        # Dessiner l'image
         screen.blit(image, rect.topleft)
     else:
         # Dessiner le rectangle du bouton
@@ -63,11 +66,7 @@ def create_button(
 
     # Dessiner le contour si le bouton est cliqué
     if is_clicked and outline_color:
-        pygame.draw.rect(screen, outline_color, rect, outline_width) # Dessiner le contour du bouton
-
-################################################################################
-#               Fonction de vérification des clics sur les boutons
-################################################################################
+        pygame.draw.rect(screen, outline_color, rect, outline_width)
 
 def check_button_clicked(rect, event):
     """
@@ -77,14 +76,13 @@ def check_button_clicked(rect, event):
     :param event: Événement Pygame à vérifier.
     :return: True si le bouton a été cliqué, sinon False.
     """
-
     if event.type == pygame.MOUSEBUTTONDOWN:
         return rect.collidepoint(event.pos)
     return False
 
-################################################################################
-#      Fonctions de gestion des événements et de vérification des réponses
-################################################################################
+# ------------------------------------------------------------
+# FONCTIONS DE GESTION DES RÉPONSES
+# ------------------------------------------------------------
 
 def check_response(first_button, second_button, response_list):
     """
@@ -95,33 +93,28 @@ def check_response(first_button, second_button, response_list):
     :param response_list: Liste des réponses correctes.
     :return: True si la réponse est correcte, sinon False.
     """
-   
     try:
-        # Essayer de convertir le premier bouton en index
         i = int(first_button) - 1
         if response_list[i] == second_button:
             print("Réponse correcte !")
             return True
-        
     except (ValueError, IndexError):
-        # Si le premier bouton n'est pas un nombre, essayer avec le deuxième bouton
         try:
             i = int(second_button) - 1
             if response_list[i] == first_button:
                 print("Réponse correcte !")
                 return True
-            
         except (ValueError, IndexError):
             pass
 
     print("Réponse incorrecte !")
     return False
 
-################################################################################
-#                Fonctions de gestion de la barre de progression
-################################################################################
+# ------------------------------------------------------------
+# FONCTIONS DE GESTION DE LA BARRE DE PROGRESSION
+# ------------------------------------------------------------
 
-def draw_progress_bar(screen, current_progress, total_progress, x, y, width, height, color_1= (255, 0, 0), color_2=(0, 255, 0)):    
+def draw_progress_bar(screen, current_progress, total_progress, x, y, width, height, color_1=(255, 0, 0), color_2=(0, 255, 0)):
     """
     Dessine une barre de progression.
 
@@ -135,19 +128,13 @@ def draw_progress_bar(screen, current_progress, total_progress, x, y, width, hei
     :param color_1: Couleur de la barre de fond (rouge).
     :param color_2: Couleur de la barre de remplissage (vert).
     """
-
-    # Dessiner la barre de chargement rouge (fond)
     pygame.draw.rect(screen, color_1, (x, y, width, height))
-
-    # Calculer la hauteur de la barre verte
     hauteur_verte = height * current_progress / total_progress
-
-    # Dessiner la barre de chargement verte (remplissage)
     pygame.draw.rect(screen, color_2, (x, y + height - hauteur_verte, width, hauteur_verte))
 
-################################################################################
-#                       Fonction de mélange des positions
-################################################################################
+# ------------------------------------------------------------
+# FONCTIONS DE MÉLANGE DES POSITIONS
+# ------------------------------------------------------------
 
 def shuffle_positions(positions):
     """
@@ -156,24 +143,22 @@ def shuffle_positions(positions):
     :param positions: Dictionnaire contenant les positions avec des clés comme 'pos_1', 'pos_2', ..., 'pos_A', 'pos_B', ...
     :return: Dictionnaire avec les positions mélangées.
     """
-    # Séparer les positions en deux groupes
     number_positions = [positions[f"pos_{i}"] for i in range(1, 6)]
     letter_positions = [positions[f"pos_{letter}"] for letter in "ABCDE"]
 
-    # Mélanger les positions
     random.shuffle(number_positions)
     random.shuffle(letter_positions)
 
-    # Créer un nouveau dictionnaire avec les positions mélangées
     shuffle_output_positions = {}
-
-    # Utiliser une liste de nombres pour les clés des positions des chiffres
     number_keys = [f"pos_{i}" for i in range(1, 6)]
     for key, pos in zip(number_keys, number_positions):
         shuffle_output_positions[key] = pos
 
-    # Utiliser les lettres directement pour les clés des positions des lettres
     for letter, pos in zip("ABCDE", letter_positions):
         shuffle_output_positions[f"pos_{letter}"] = pos
 
     return shuffle_output_positions
+
+# ============================================================
+# FIN DU MODULE
+# ============================================================
