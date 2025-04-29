@@ -114,9 +114,24 @@ def check_response(first_button, second_button, response_list):
 # FONCTIONS DE GESTION DE LA BARRE DE PROGRESSION
 # ------------------------------------------------------------
 
-def draw_progress_bar(screen, current_progress, total_progress, x, y, width, height, color_1=(255, 0, 0), color_2=(0, 255, 0)):
+def draw_progress_bar(
+    screen, 
+    current_progress, 
+    total_progress, 
+    x, 
+    y, 
+    width, 
+    height, 
+    color_1=(255, 0, 0), 
+    color_2=(0, 255, 0), 
+    completed_colors=((0, 255, 0), (255, 255, 0)), 
+    message=None, 
+    message_color=(255, 255, 255), 
+    font=None
+):
     """
-    Dessine une barre de progression.
+    Dessine une barre de progression. Si elle est complétée, elle clignote entre deux couleurs
+    et affiche un message verticalement superposé à la barre.
 
     :param screen: Surface Pygame sur laquelle dessiner la barre.
     :param current_progress: Progression actuelle (nombre de réponses correctes).
@@ -127,10 +142,37 @@ def draw_progress_bar(screen, current_progress, total_progress, x, y, width, hei
     :param height: Hauteur totale de la barre.
     :param color_1: Couleur de la barre de fond (rouge).
     :param color_2: Couleur de la barre de remplissage (vert).
+    :param completed_colors: Tuple de deux couleurs pour le clignotement lorsque la barre est complétée.
+    :param message: Message à afficher verticalement superposé à la barre.
+    :param message_color: Couleur du message.
+    :param font: Police de texte à utiliser pour le message. Si None, utilise la police par défaut.
     """
+    # Dessiner la barre de fond
     pygame.draw.rect(screen, color_1, (x, y, width, height))
+
+    # Calculer la hauteur de la barre de progression
     hauteur_verte = height * current_progress / total_progress
-    pygame.draw.rect(screen, color_2, (x, y + height - hauteur_verte, width, hauteur_verte))
+
+    # Si la barre est complétée, clignoter entre deux couleurs
+    if current_progress >= total_progress:
+        # Alterner entre les deux couleurs en fonction du temps
+        clignotement_color = completed_colors[int(pygame.time.get_ticks() / 500) % 2]
+        pygame.draw.rect(screen, clignotement_color, (x, y, width, height))
+
+        # Afficher le message superposé à la barre si défini
+        if message:
+            if font is None:
+                font = pygame.font.SysFont(None, 36)
+            text_surface = font.render(message, True, message_color)
+            text_rect = text_surface.get_rect(center=(x + width * 2.65, y + height // 3))
+            
+            # Afficher le texte verticalement (rotation)
+            rotated_text = pygame.transform.rotate(text_surface, 90)
+            screen.blit(rotated_text, text_rect.topleft)
+
+    else:
+        # Dessiner la barre de progression normale
+        pygame.draw.rect(screen, color_2, (x, y + height - hauteur_verte, width, hauteur_verte))
 
 # ------------------------------------------------------------
 # FONCTIONS DE MÉLANGE DES POSITIONS

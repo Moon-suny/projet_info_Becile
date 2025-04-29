@@ -20,6 +20,7 @@ fond = fond.convert()
 vert = (0, 255, 0)
 rouge = (255, 0, 0)
 bleu = (0, 0, 255)
+blanc = (255, 255, 255)
 
 # Dictionnaire initial des positions
 positions = {
@@ -140,16 +141,6 @@ buttons = [
         "is_clicked": False,  # Indique si le bouton est cliqué
         "outline_width": 2,  # Largeur du contour
     },
-    {   # Bouton Jeu gagner
-        "name" : "Jeu gagner",
-        "rect": pygame.Rect((250, 100, 100, 100)),  # Taille initiale, sera ajustée à celle de l'image
-        "text": "Bravo le cerveau est réparer",  # Texte (vide si image)
-        "image_path": None, # Chemin/nom de l'image (vide si texte)
-        "scale_factor": None,  # Facteur d'échelle pour le bouton 1
-        "is_clicked": False,  # Indique si le bouton est cliqué
-        "button_color": (255,0,0),  # Couleur du bouton (rouge)
-        "button_state": False,  # Indique si le bouton est actif (a programmer dans lib_jeu1_pygame.py)
-    },
 ]
 
 # variables de stockage des boutons cliqués
@@ -236,7 +227,20 @@ def main():
             )
 
         # Calcul et dessiner la barre de progression
-        draw_progress_bar(screen, len(Rep_give), len(Liste_reponse), 380, 50, 40, 500, rouge, vert)
+        draw_progress_bar(
+            screen,
+            current_progress=len(Rep_give),
+            total_progress=len(Liste_reponse),
+            x=380,
+            y=50,
+            width=40,
+            height=500,
+            color_1=rouge,
+            color_2=vert,
+            completed_colors=(rouge, vert),
+            message="Cerveau réparer !",
+            message_color=blanc
+        )
 
         # Mettre à jour l'affichage
         pygame.display.flip()
