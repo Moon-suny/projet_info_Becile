@@ -77,7 +77,7 @@ def menu():
                         elif button["name"] == "Charger Partie":
                             print("Charger Partie sélectionnée.")
                             # Ajoutez ici la logique pour charger une partie
-                            
+
                         elif button["name"] == "Options":
                             print("Options sélectionnées. (pas d'options pour l'instant)")
                             # Ajoutez ici la logique pour afficher les options
