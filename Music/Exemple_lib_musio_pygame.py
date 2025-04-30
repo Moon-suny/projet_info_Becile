@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Mini-jeu avec musique")
 
 # Lancer la musique en parallèle
-play_music_in_parallel(screen, "Music\legends_never_die.mp3")
+play_music_in_parallel(screen, "Music\legends_never_die.mp3", state_volume="false")
 
 # Boucle principale du mini-jeu
 running = True
