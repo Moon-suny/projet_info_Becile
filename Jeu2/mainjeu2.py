@@ -8,7 +8,7 @@ pygame.init()
 # écran principal
 screen_x, screen_y = 1000, 800
 screen = pygame.display.set_mode((screen_x, screen_y))
-pygame.display.set_caption("Jeu 2 : Enfuis-toi !")
+pygame.display.set_caption("Enfuis-toi !")
 
 # Initialisation du player
 player_img = pygame.image.load("jeu2/img/10581090.png").convert_alpha()

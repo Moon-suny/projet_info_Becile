@@ -16,7 +16,7 @@ pygame.init()
 # Configuration de la fenêtre
 window_size = (800, 600)
 screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Menu Principal")
+pygame.display.set_caption("Bécile contre attaque !")
 
 # Chargement de l'image de fond
 fond = pygame.image.load("Menu_du_jeu\Img_menu\Menu_principale_Becile_contre_attaque.png")

@@ -9,7 +9,7 @@ pygame.init()
 # Configuration de la fenêtre
 window_size = (800, 600)
 screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Jeu 1")
+pygame.display.set_caption("Répare le cerveau !")
 
 # Initialisation image de fond
 fond = pygame.image.load("Jeu1/Fond_Screen/Fond_screen_cable_jeu_1.png")

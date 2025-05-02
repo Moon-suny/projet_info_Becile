@@ -7,7 +7,7 @@ import time as time
 pygame.init()
 
 def lancement():
-    print("Lancement du jeu 1")
+    #print("Lancement du jeu 1")
     chemin = os.path.abspath('../projet_info_Becile/Jeu1/Main_Jeu_1.py')
     subprocess.run(['python', chemin])
 
@@ -15,7 +15,7 @@ def lancement():
 # Set up the game window
 screen_width, screen_height = 1000, 800
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("Bécile contre attaque !")
 
 # Define colors
 BLACK = (0, 0, 0)
@@ -56,6 +56,19 @@ background = pygame.image.load("Cinematique/img/ruelle_sombre.jpg").convert_alph
 background = pygame.transform.scale(background, (screen_width, screen_height))
 background_rect = background.get_rect()
 
+# Création du personnage
+becile = pygame.image.load("Cinematique/img/tete_robot_capute.png").convert_alpha()
+becile = pygame.transform.scale(becile, (100, 100))
+becile = pygame.transform.rotate(becile, 25)
+becile.set_alpha(175)  # 0-255, 0 = transparent, 255 = opaque
+becile_rect = becile.get_rect()
+
+# Création du joeur
+Joueur = pygame.image.load("Cinematique/img/creature_jeu.png").convert_alpha()
+Joueur = pygame.transform.scale(Joueur, (200, 100))
+Joeur_rect = Joueur.get_rect()
+
+
 running = True
 clock = pygame.time.Clock()
 
@@ -64,7 +77,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        #if event.type == pygame.MOUSEBUTTONDOWN:
+        #    posmouse = pygame.mouse.get_pos()
+        #    print(posmouse)
+   
+   
         manager.process_events(event)
 
     keys = pygame.key.get_pressed()
@@ -104,6 +121,9 @@ while running:
         if button2.check_pressed():
             pass
 
+        # Draw the character
+        screen.blit(becile, (609,418))
+        screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - button2_width, dialogue_box_y - 100))    
 
 
 

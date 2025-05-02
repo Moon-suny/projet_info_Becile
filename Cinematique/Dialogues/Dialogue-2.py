@@ -5,7 +5,7 @@ import os
 import time
 
 def lancementJ2():
-    print("Lancement du jeu 2")
+    #print("Lancement du jeu 2")
     chemin = os.path.abspath('../projet_info_Becile/Jeu2/mainjeu2.py')
     subprocess.run(['python', chemin])
 
@@ -16,7 +16,7 @@ pygame.init()
 # Set up the game window
 screen_width, screen_height = 1000, 800
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("Bécile contre attaque !")
 
 # Define colors
 BLACK = (0, 0, 0)
@@ -67,10 +67,27 @@ background = pygame.image.load("Cinematique/img/ruelle_sombre.jpg").convert_alph
 background = pygame.transform.scale(background, (screen_width, screen_height))
 background_rect = background.get_rect()
 
+# Création du personnage
+becile = pygame.image.load("Cinematique/img/nainbecile.png").convert_alpha()
+becile = pygame.transform.scale(becile, (100, 100))
+becile_rect = becile.get_rect()
+
+# Création du joeur
+Joueur = pygame.image.load("Cinematique/img/creature_jeu.png").convert_alpha()
+Joueur = pygame.transform.scale(Joueur, (200, 100))
+Joeur_rect = Joueur.get_rect()
+
+
+
+# Initialisation des variables
 running = True
 clock = pygame.time.Clock()
 indice = 0
 dialogue_box = True
+repetition = 0
+bank = ["HAAAAA j’ai plus de corps. Pourquoi ma jambe se trouve à 2 années lumière.\n\nVA CHERCHER LE RESTE MAINTENANT!!",
+                "Ok je monte sur ton dos ! Puis je te guide.\n\nJe suis un génie ! \n\nMais attention le voleur fétichiste nous lance des choses ! EVITE LES !",
+                "Aïe, VA CHERCHER MES MEMBRES !!!"]
 
 while running:
     for event in pygame.event.get():
@@ -86,6 +103,18 @@ while running:
     screen.blit(background, background_rect)
     if indice == 0 :
         button3.hide()
+        button1.show()
+        button2.show()
+    
+    if indice == 1:
+        button1.hide()
+        button2.hide()
+        button3.show()
+
+    if indice == 2:
+        button1.hide()
+        button2.hide()
+        button3.show()
 
     if dialogue_box:
         pygame.draw.rect(screen, GRAY, (dialogue_box_x, 
@@ -101,8 +130,7 @@ while running:
         manager.draw_ui(screen)
 
 
-        bank = ["HAAAAA j’ai plus de corps. Pourquoi ma jambe se trouve à 2 années lumière.\n\n                     VA CHERCHER LE RESTE MAINTENANT!!",
-                "Ok je monte sur ton dos ! Puis je te guide.\n\n                     Je suis un génie !"]
+        
         text = bank[indice]
         rendered_text = pygame.font.Font(None, 24).render(text, True, WHITE)
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
@@ -112,23 +140,34 @@ while running:
     
         # Check if the buttons are clicked
         if button1.check_pressed():
-            print("Button *frappe* clicked")
-            indice = 0
+            #print("Button *frappe* clicked")
+            indice = 2
             
 
         if button2.check_pressed():
-            print("Button *hmm* clicked")
+            #print("Button *hmm* clicked")
             indice = 1
             button2.hide()
             button1.hide()
             button3.show()
 
-        if button3.check_pressed() and indice == 1:
-            lancementJ2()
-            time.sleep(1)
-            running = False
+        if button3.check_pressed():
+            if indice == 1:
+                lancementJ2()
+                time.sleep(1)
+                running = False
+            if indice == 2:
+                repetition += 1
+                if repetition == 42: #easter Egg
+                    bank[0] = "Va chercher mes membres ! S'il te plaît ! \n\n Mon dieu de l'univers j'ai besoin de ton aide !"
+                else:
+                    bank[0] = "Va chercher mes membres !"
+                indice = 0
+        
             
-            
+        #draw the character
+        screen.blit(becile, (dialogue_box_x + dialogue_box_width*0.05, dialogue_box_y - 100))
+        screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - button2_width, dialogue_box_y - 100))  
 
 
         
