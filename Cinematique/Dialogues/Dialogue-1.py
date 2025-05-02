@@ -1,7 +1,16 @@
 import pygame
 import pygame_gui
+import os
+import subprocess
+import time as time
 
 pygame.init()
+
+def lancement():
+    print("Lancement du jeu 1")
+    chemin = os.path.abspath('../projet_info_Becile/Jeu1/Main_Jeu_1.py')
+    subprocess.run(['python', chemin])
+
 
 # Set up the game window
 screen_width, screen_height = 1000, 800
@@ -88,13 +97,14 @@ while running:
     
         # Check if the buttons are clicked
         if button1.check_pressed():
-            print("Button Oui clicked")
-            # Add your action for button 1 here
-            dialogue_box = False
+            lancement()
+            time.sleep(1)
+            running = False
+            
         if button2.check_pressed():
-            print("Button Non clicked")
-            # Add your action for button 2 here
-            dialogue_box = False
+            pass
+
+
 
 
 

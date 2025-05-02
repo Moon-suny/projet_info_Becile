@@ -1,7 +1,7 @@
 import pygame
 import random 
 from pygame.locals import *
-from PIL import Image, ImageSequence
+#from PIL import Image, ImageSequence
 
 pygame.init()
 

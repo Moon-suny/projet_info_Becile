@@ -1,11 +1,14 @@
 import pygame
 import pygame_gui
+import subprocess
 import os
+import time
 
 def lancementJ2():
-    os.path.dirname(__file__)
-    os.chdir(os.path.dirname(__file__))
-    os.system('python mainjeu2.py')
+    print("Lancement du jeu 2")
+    chemin = os.path.abspath('../projet_info_Becile/Jeu2/mainjeu2.py')
+    subprocess.run(['python', chemin])
+
 
 
 pygame.init()
@@ -121,8 +124,11 @@ while running:
             button3.show()
 
         if button3.check_pressed() and indice == 1:
-            running = False
             lancementJ2()
+            time.sleep(1)
+            running = False
+            
+            
 
 
         
