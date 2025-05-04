@@ -1,6 +1,7 @@
 import sys
 import os
 import pygame
+import tkinter
 
 # Chemin vers le répertoire parent
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Jeu1")))
