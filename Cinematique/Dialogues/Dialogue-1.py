@@ -1,7 +1,16 @@
 import pygame
 import pygame_gui
+import os
+import subprocess
+import time as time
 
 pygame.init()
+
+def lancement():
+    print("Lancement du jeu 1")
+    chemin = os.path.abspath('../projet_info_Becile/Jeu1/Main_Jeu_1.py')
+    subprocess.run(['python', chemin])
+
 
 # Set up the game window
 screen_width, screen_height = 1000, 800
@@ -42,10 +51,16 @@ button2 = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(button2_x, butt
                                       text='Non',
                                       manager=manager)
 
+#création du background
+background = pygame.image.load("Cinematique/img/ruelle_sombre.jpg").convert_alpha()
+background = pygame.transform.scale(background, (screen_width, screen_height))
+background_rect = background.get_rect()
+
 running = True
 clock = pygame.time.Clock()
 
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -55,8 +70,10 @@ while running:
     keys = pygame.key.get_pressed()
     dialogue_box = True
 
-    screen.fill(BLACK)
+    # Draw the background
+    screen.blit(background, background_rect)
 
+    
     if dialogue_box:
         pygame.draw.rect(screen, GRAY, (dialogue_box_x, 
                                         dialogue_box_y, 
@@ -77,6 +94,19 @@ while running:
                                                    dialogue_box_y + dialogue_box_height // 2))
 
         screen.blit(rendered_text, text_rect)
+    
+        # Check if the buttons are clicked
+        if button1.check_pressed():
+            lancement()
+            time.sleep(1)
+            running = False
+            
+        if button2.check_pressed():
+            pass
+
+
+
+
 
     pygame.display.flip()
     clock.tick(60)
