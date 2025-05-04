@@ -201,6 +201,37 @@ def shuffle_positions(positions):
 
     return shuffle_output_positions
 
+# ------------------------------------------------------------
+# FONCTIONS D'ANIMATION
+# ------------------------------------------------------------
+
+def handle_cable_animation(
+    screen, 
+    connections, 
+    first_button_center, 
+    waiting_for_second_click, 
+    cable_color=(0, 0, 255), 
+    cable_width=3
+):
+    """
+    Gère l'animation des câbles entre les boutons.
+
+    :param screen: Surface Pygame sur laquelle dessiner.
+    :param connections: Liste des connexions existantes entre les boutons.
+    :param first_button_center: Centre du premier bouton cliqué.
+    :param waiting_for_second_click: Booléen indiquant si on attend un deuxième clic.
+    :param cable_color: Couleur du câble.
+    :param cable_width: Largeur du câble.
+    """
+    # Dessiner toutes les connexions existantes
+    for connection in connections:
+        pygame.draw.line(screen, cable_color, connection[0], connection[1], cable_width)
+
+    # Dessiner une ligne entre le premier bouton et la souris
+    if waiting_for_second_click and first_button_center:
+        mouse_pos = pygame.mouse.get_pos()  # Obtenir la position actuelle de la souris
+        pygame.draw.line(screen, cable_color, first_button_center, mouse_pos, cable_width)  # Dessiner une ligne
+
 # ============================================================
 # FIN DU MODULE
 # ============================================================

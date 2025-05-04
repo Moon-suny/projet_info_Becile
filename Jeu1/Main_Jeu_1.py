@@ -1,7 +1,7 @@
 import sys
 import pygame
 import random
-from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, DEFAULT_BUTTON_COLOR
+from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, handle_cable_animation, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
 pygame.init()
@@ -154,11 +154,14 @@ random.shuffle(Liste_reponse) # Mélanger la liste de réponses pour le jeu
 # variables de stockage des réponses
 Rep_give = set()
 
+# Liste pour stocker les connexions entre les boutons
+connections = []
+
 # fonction principale
 def main():
     global First_button_use, Second_button_use
     waiting_for_second_click = False
-
+    first_button_center = None  # Stocke le centre du premier bouton cliqué
 
     # Boucle principale du jeu
     while True:
@@ -182,23 +185,25 @@ def main():
                         if not waiting_for_second_click:
                             # Premier clic détecté
                             First_button_use = button["name"]
+                            first_button_center = button["rect"].center  # Stocker le centre du premier bouton
                             print("Premier bouton cliqué :", First_button_use)
                             waiting_for_second_click = True
 
                         else:
                             # Deuxième clic détecté
                             Second_button_use = button["name"]
+                            second_button_center = button["rect"].center  # Stocker le centre du deuxième bouton
                             print("Deuxième bouton cliqué :", Second_button_use)
 
                             # Vérifier si les boutons cliqués correspondent à la réponse
-                            if check_response(First_button_use, Second_button_use, Liste_reponse) is True: # is true remplace ici == True
-
-                                ## Vérifier si la réponse n'a pas déjà été donnée et ajouter à la liste si ce n'est pas le cas
-                                if ((First_button_use + Second_button_use) and (Second_button_use + First_button_use)) not in Rep_give: # not in Rep_give remplace
+                            if check_response(First_button_use, Second_button_use, Liste_reponse) is True:
+                                # Vérifier si la réponse n'a pas déjà été donnée
+                                if ((First_button_use + Second_button_use) and (Second_button_use + First_button_use)) not in Rep_give:
                                     Rep_give.add(First_button_use + Second_button_use)
-                            
-                            else: # Réponse incorrecte
-                                # Réinitialiser l'état des boutons cliqués
+                                    # Ajouter la connexion entre les deux boutons uniquement si la réponse est correcte
+                                    connections.append((first_button_center, second_button_center))
+                            else:
+                                # Réinitialiser l'état des boutons cliqués si la réponse est incorrecte
                                 for button in buttons:
                                     if button["name"] == First_button_use or button["name"] == Second_button_use:
                                         button["is_clicked"] = False
@@ -206,9 +211,9 @@ def main():
                             # Réinitialiser les boutons pour un nouveau tour
                             First_button_use = None
                             Second_button_use = None
+                            first_button_center = None  # Réinitialiser le centre du premier bouton
                             waiting_for_second_click = False
 
-    
         # Remplir l'écran avec une couleur de fond
         screen.blit(fond, (0, 0))
 
@@ -225,6 +230,20 @@ def main():
                 is_clicked=button.get("is_clicked"),
                 outline_width=button.get("outline_width")
             )
+
+        # Dessiner toutes les connexions existantes
+        for connection in connections:
+            pygame.draw.line(screen, bleu, connection[0], connection[1], 3)
+
+        # Gérer l'animation des câbles
+        handle_cable_animation(
+            screen=screen,
+            connections=connections,
+            first_button_center=first_button_center,
+            waiting_for_second_click=waiting_for_second_click,
+            cable_color=bleu,
+            cable_width=3
+        )
 
         # Calcul et dessiner la barre de progression
         draw_progress_bar(
