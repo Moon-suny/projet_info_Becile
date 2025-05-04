@@ -1,6 +1,9 @@
 import sys
 import pygame
 import random
+import os
+import time as time
+import subprocess
 from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, handle_cable_animation, DEFAULT_BUTTON_COLOR
 
 # Initialisation de Pygame
@@ -263,6 +266,14 @@ def main():
 
         # Mettre à jour l'affichage
         pygame.display.flip()
+
+        if len(Rep_give) == len(Liste_reponse):
+            time.sleep(12)
+            print("je suis passer par ici")
+            pygame.quit()
+            # Lancer le script Dialogue-2.py
+            chemin = os.path.abspath('Cinematique\Dialogues\Dialogue-2.py')
+            subprocess.run(['python', chemin])
 
 
 if __name__ == "__main__":

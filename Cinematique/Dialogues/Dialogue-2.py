@@ -4,8 +4,18 @@ import subprocess
 import os
 import time
 
+def apparition_vaiseau():
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/script/blcprl.py')
+    subprocess.run(['python', chemin])
+    time.sleep(0.2)
+    global background
+    # Load the new background image
+    background = pygame.image.load("Cinematique/img/intérieur-navire.png").convert_alpha()
+    background = pygame.transform.scale(background, (screen_width, screen_height))
+    background_rect = background.get_rect()
+
+
 def lancementJ2():
-    #print("Lancement du jeu 2")
     chemin = os.path.abspath('../projet_info_Becile/Jeu2/mainjeu2.py')
     subprocess.run(['python', chemin])
 
@@ -88,6 +98,7 @@ repetition = 0
 bank = ["HAAAAA j’ai plus de corps. Pourquoi ma jambe se trouve à 2 années lumière.\n\nVA CHERCHER LE RESTE MAINTENANT!!",
                 "Ok je monte sur ton dos ! Puis je te guide.\n\nJe suis un génie ! \n\nMais attention le voleur fétichiste nous lance des choses ! EVITE LES !",
                 "Aïe, VA CHERCHER MES MEMBRES !!!"]
+voyage = False
 
 while running:
     for event in pygame.event.get():
@@ -107,6 +118,9 @@ while running:
         button2.show()
     
     if indice == 1:
+        if voyage == False:
+            apparition_vaiseau()
+            voyage = True
         button1.hide()
         button2.hide()
         button3.show()
@@ -153,11 +167,10 @@ while running:
 
         if button3.check_pressed():
             if indice == 1:
+                pygame.quit()
                 lancementJ2()
-                time.sleep(1)
                 running = False
-                time.sleep(1)
-                lancementJ2()
+
             if indice == 2:
                 repetition += 1
                 if repetition == 42: #easter Egg

@@ -84,8 +84,10 @@ while running:
                                                    dialogue_box_y + dialogue_box_height // 2))
 
         if button1.check_pressed():
+            pygame.quit()
             lancementJ3()
             running = False
+            
 
         screen.blit(rendered_text, text_rect)
         pygame.display.flip()

@@ -110,25 +110,24 @@ while running:
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
                                                    dialogue_box_y + dialogue_box_height // 2))
 
-        screen.blit(rendered_text, text_rect)
-    
-        # Check if the buttons are clicked
-        if button1.check_pressed():
-            lancement()
-            time.sleep(1)
-            running = False
-            
-        if button2.check_pressed():
-            pass
-
-        # Draw the character
+        #Draw the character
         screen.blit(becile, (609,418))
-        screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - button2_width, dialogue_box_y - 100))    
+        screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - button2_width, dialogue_box_y - 100))   
 
-
-
-
+    screen.blit(rendered_text, text_rect)
     pygame.display.flip()
+    # Check if the buttons are clicked
+    if button1.check_pressed():
+        pygame.quit()
+        lancement()
+        running = False
+        
+    if button2.check_pressed():
+        pass
+
     clock.tick(60)
 
 pygame.quit()
+
+
+
