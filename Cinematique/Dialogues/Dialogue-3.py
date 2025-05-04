@@ -4,6 +4,11 @@ import subprocess
 import os
 import time
 
+def lancementJ3():
+    #print("Lancement du jeu 3")
+    chemin = os.path.abspath('../projet_info_Becile/Jeu3/Jeu3.py')
+    subprocess.run(['python', chemin])
+
 pygame.init()
 
 # Set up the game window
@@ -31,6 +36,15 @@ manager = pygame_gui.UIManager((screen_width, screen_height))
 background = pygame.image.load("Cinematique/img/ruelle_sombre.jpg").convert_alpha()
 background = pygame.transform.scale(background, (screen_width, screen_height))
 background_rect = background.get_rect()
+
+# creation button
+button1_width = 100
+button1_height = 30
+button1_x = dialogue_box_x + dialogue_box_width*0.95 - button1_width
+button1_y = dialogue_box_y + dialogue_box_height*0.95 - button1_height
+button1 = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(button1_x, button1_y, button1_width, button1_height),
+                                      text='Suivant',
+                                      manager=manager)
 
 
 running = True
@@ -68,6 +82,10 @@ while running:
         rendered_text = pygame.font.Font(None, 24).render(text, True, WHITE)
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
                                                    dialogue_box_y + dialogue_box_height // 2))
+
+        if button1.check_pressed():
+            lancementJ3()
+            running = False
 
         screen.blit(rendered_text, text_rect)
         pygame.display.flip()
