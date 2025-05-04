@@ -156,6 +156,8 @@ while running:
                 lancementJ2()
                 time.sleep(1)
                 running = False
+                time.sleep(1)
+                lancementJ2()
             if indice == 2:
                 repetition += 1
                 if repetition == 42: #easter Egg
