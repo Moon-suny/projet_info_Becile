@@ -16,7 +16,7 @@ WHITE = (255, 255, 255)
 
 screen.fill(BLACK)
 road_height = 200
-scroll_speed = 1.5
+scroll_speed = 4
 nb_routes = 3
 line_length = 50
 line_width = 10
@@ -46,7 +46,7 @@ clock = pygame.time.Clock()
 # Initialisation du joueur
 player_img = pygame.image.load("jeu2/img/le_nainbecile.png").convert_alpha()
 player_x, player_y = 100, screen_y / 2  # Position initiale
-speed_player = 1  # Vitesse du joueur
+speed_player = 2  # Vitesse du joueur
 player_img = pygame.transform.scale(player_img, (100, 100))
 zone_d_insertitude = 10
 
