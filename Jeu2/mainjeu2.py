@@ -1,5 +1,7 @@
 import pygame
 import random
+import os
+import subprocess 
 from pygame.locals import *
 
 pygame.init()
@@ -151,12 +153,16 @@ while running:
         print("game over - collision avec un déchet")
         pygame.time.delay(1000)
         running = False
-    
-    # Fin du jeu après 30 secondes
-    if pygame.time.get_ticks() > 30000:
+
+
+
+ #fin du jeu après 30 secondes
+    if pygame.time.get_ticks() > 30000 :
         print("win")
-        pygame.time.delay(1000)
+        win = True
         running = False
+
+        
 
     # Affichage
     screen.fill(BLACK)
@@ -192,3 +198,11 @@ while running:
     clock.tick(60)
 
 pygame.quit()
+
+if win:
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-3.py')
+    subprocess.run(['python', chemin]) 
+else:
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-4.py')
+    subprocess.run(['python', chemin])
+
