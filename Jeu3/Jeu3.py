@@ -1,177 +1,128 @@
 import pygame
 from pygame.locals import *
 
-# --- Initialisation de Pygame ---
+# --- Initialisation ---
 pygame.init()
-
-# --- Constantes de l'écran ---
-screen_width = 1000
-screen_height = 800
-screen = pygame.display.set_mode((screen_width, screen_height))
+W, H = 1000, 800
+screen = pygame.display.set_mode((W, H))
 pygame.display.set_caption('Jeu 3')
 
-# --- Constantes du jeu ---
-PLAYER_SPEED = 3
-GRAVITY = 0.6 
-JUMP_STRENGTH = -21 
-SOL_HAUTEUR = 50    
+# --- Constantes ---
+PLAYER_SPEED  = 3
+GRAVITY       = 0.6
+JUMP_STRENGTH = -21
+SOL_HEIGHT    = 50
 
-# Joueur
-player_img_orig = pygame.image.load("Jeu3/img/10581090.png").convert_alpha()
-# Barre (UNE SEULE image maintenant)
-barre_img = pygame.image.load('Jeu3/img/barre.png').convert_alpha()
-# Fond d'écran
-Background_img = pygame.image.load('Jeu3/img/Backgrnd.png').convert()
-# objectif
-objectif_img = pygame.image.load('Jeu3/img/piéce.png').convert_alpha()
+# --- Chargement images ---
+player_surf = pygame.image.load(r"..\projet_info_Becile\Cinematique\img\creature_jeu.png").convert_alpha()
+barre_surf  = pygame.image.load('Jeu3/img/barre.png').convert_alpha()
+bg_surf     = pygame.image.load('Jeu3/img/Backgrnd.png').convert()
+obj_surf    = pygame.image.load(r"..\projet_info_Becile\Cinematique\img\jambe_du_robot.png").convert_alpha()
 
+# --- Objectif en haut-gauche ---
+obj_surf = pygame.transform.scale(obj_surf, (25, 25))
+obj_rect = obj_surf.get_rect(topleft=(0,0))
 
-# configuration de l'objectif
-objectif_width = 25
-objectif_height = 25
-objectif_img = pygame.transform.scale(objectif_img, (objectif_width, objectif_height))
-objectif_rect = objectif_img.get_rect()
-
-
-# --- Configuration du Joueur ---
-player_width = 55
-player_height = 75
-player_img = pygame.transform.scale(player_img_orig, (player_width, player_height))
-player_rect = player_img.get_rect()
-player_rect.x = 946
-player_rect.y = 703
-player_vy = 0
-player_mask = pygame.mask.from_surface(player_img)
+# --- Joueur ---
+player_w, player_h = 50, 25
+player_surf = pygame.transform.scale(player_surf, (player_w, player_h))
+player_rect = player_surf.get_rect(x=946, y=703)
+player_mask = pygame.mask.from_surface(player_surf)
+vy = 0
 on_ground = False
 
-# --- Configuration de la Barre ---
+# --- Barre (plateforme) ---
+barre_rect = barre_surf.get_rect(topleft=(0,0))
+barre_mask = pygame.mask.from_surface(barre_surf)
 
-barre_rect = barre_img.get_rect(topleft=(0, 0))
-barre_mask = pygame.mask.from_surface(barre_img) # Masque de collision pour la barre
+# --- Sol ---
+sol_rect = pygame.Rect(0, H - SOL_HEIGHT, W, SOL_HEIGHT)
+sol_surf = pygame.Surface((W, SOL_HEIGHT)); sol_surf.fill((255,255,255)); sol_surf.set_alpha(100)
+sol_mask = pygame.mask.from_surface(sol_surf)
 
-# --- Création du Sol ---
-sol_y = screen_height - SOL_HAUTEUR
-
-sol_surface = pygame.Surface((screen_width, SOL_HAUTEUR)) 
-sol_surface.fill((255, 255, 255)) # Remplir en blanc
-sol_surface.set_alpha(100)
-
-sol_rect = sol_surface.get_rect()
-sol_rect.x = 0 
-sol_rect.y = sol_y
-
-# mask du sol
-sol_mask = pygame.mask.from_surface(sol_surface)
-
-
-# Boucle de Jeu
-running = True
 clock = pygame.time.Clock()
+running = True
 
 while running:
-    # --- Gestion des Événements ---
-    for event in pygame.event.get():
-        if event.type == QUIT:
+    # --- Événements ---
+    for e in pygame.event.get():
+        if e.type == QUIT:
             running = False
-        if event.type == pygame.MOUSEBUTTONUP:
-            x,y = pygame.mouse.get_pos()
-            print("curseur position:", x, y)
-    
 
-            
-
-    # --- Gestion des Entrées ---
+    # --- Contrôles ---
     keys = pygame.key.get_pressed()
-
-    move_x = 0
-    if keys[pygame.K_LEFT]:
-        move_x = PLAYER_SPEED* (-1)
-    if keys[pygame.K_RIGHT]:
-        move_x = PLAYER_SPEED
-    if keys[pygame.K_UP] and on_ground:
-        player_vy = JUMP_STRENGTH
+    dx = 0
+    if keys[K_LEFT]:
+        dx = -PLAYER_SPEED
+    if keys[K_RIGHT]:
+        dx =  PLAYER_SPEED
+    if keys[K_UP] and on_ground:
+        vy = JUMP_STRENGTH
         on_ground = False
 
-    # --- Mise à jour de la Physique ---
-    player_vy += GRAVITY
-    max_fall_speed = 10  # Limite de vitesse de chute
-    if player_vy > max_fall_speed:
-        player_vy = max_fall_speed
+    # --- Gravité ---
+    vy += GRAVITY
+    if vy > 10: vy = 10
+    on_ground = False
 
-    on_ground = False # Réinitialiser avant les vérifications
+    # --- Mouvement horizontal & collisions barre ---
+    player_rect.x += dx
+    offset = (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)
+    pp = player_mask.overlap(barre_mask, offset)
+    if pp:
+        y_mask = pp[1]
+        cutoff = int(player_h * 0.75)
+        if y_mask < cutoff:
+            # collision sur le corps → blocage horizontal total
+            player_rect.x -= dx
+        else:
+            # collision sur les pieds → on gravite d'1px
+            player_rect.y -= 1
 
-    # --- Détection et Réponse aux Collisions ---
-    player_rect.x += move_x
-    offset_barre_x = barre_rect.x - player_rect.x
-    offset_barre_y = barre_rect.y - player_rect.y
+    # --- Mouvement vertical & collisions barre/sol ---
+    player_rect.y += int(vy)
 
-
-    if player_mask.overlap(barre_mask, (offset_barre_x, offset_barre_y)):
-        if move_x > 0: # Allait à droite
-            while player_mask.overlap(barre_mask, (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)):
-                player_rect.x -= 1
-                player_rect.y -= 1
-        elif move_x < 0: # Allait à gauche
-            while player_mask.overlap(barre_mask, (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)):
-                player_rect.y -= 1
-                player_rect.x += 1
-
-    # Mouvement Vertical et Collisions Verticales
-    player_rect.y += int(player_vy)
-
-    collided_vertically_barre = False # Indicateur spécifique pour la barre
-
-    # Collision verticale avec la BARRE
-    offset_barre_x = barre_rect.x - player_rect.x
-    offset_barre_y = barre_rect.y - player_rect.y
-    if player_mask.overlap(barre_mask, (offset_barre_x, offset_barre_y)):
-        if player_vy > 0:
+    # collision barre verticale
+    offset = (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)
+    pp = player_mask.overlap(barre_mask, offset)
+    if pp:
+        if vy > 0:
+            # on tombait → on remonte jusqu'à décoller
             while player_mask.overlap(barre_mask, (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)):
                 player_rect.y -= 1
-            player_vy = 0
+            vy = 0
             on_ground = True
-            collided_vertically_barre = True
-        elif player_vy < 0:
+        else:
+            # on montait → on repousse
             while player_mask.overlap(barre_mask, (barre_rect.x - player_rect.x, barre_rect.y - player_rect.y)):
                 player_rect.y += 1
-            player_vy = 0
+            vy = 0
+    else:
+        # collision sol
+        offset = (sol_rect.x - player_rect.x, sol_rect.y - player_rect.y)
+        pp = player_mask.overlap(sol_mask, offset)
+        if pp and vy >= 0:
+            while player_mask.overlap(sol_mask, (sol_rect.x - player_rect.x, sol_rect.y - player_rect.y)):
+                player_rect.y -= 1
+            vy = 0
+            on_ground = True
 
+    # --- Objectif ---
+    if player_rect.colliderect(obj_rect):
+        print("Objectif atteint !")
+        running = False
 
-    if not collided_vertically_barre:
-        offset_sol_x = sol_rect.x - player_rect.x
-        offset_sol_y = sol_rect.y - player_rect.y
-
-        if player_mask.overlap(sol_mask, (offset_sol_x, offset_sol_y)):
-
-            if player_vy >= 0:
-
-                while player_mask.overlap(sol_mask, (sol_rect.x - player_rect.x, sol_rect.y - player_rect.y)):
-                    player_rect.y -= 1
-
-                    if sol_rect.y - player_rect.bottom > 5:
-                         print("Ajustement excessif collision sol, arrêt.")
-                         break
-
-                player_vy = 0
-                on_ground = True
-
-    # --- Limites de l'écran ---
-    if player_rect.left < 0:
-        player_rect.left = 0
-    if player_rect.right > screen_width:
-        player_rect.right = screen_width
-
+    # --- Limites écran ---
+    if player_rect.left   < 0:         player_rect.left  = 0
+    if player_rect.right  > W:         player_rect.right = W
 
     # --- Affichage ---
-    screen.blit(Background_img, (0, 0))
-    screen.blit(barre_img, barre_rect)
-    screen.blit(sol_surface, sol_rect) 
-    screen.blit(player_img, player_rect)
-
+    screen.blit(bg_surf,      (0,0))
+    screen.blit(barre_surf,   barre_rect)
+    screen.blit(sol_surf,     sol_rect)
+    screen.blit(player_surf,  player_rect)
+    screen.blit(obj_surf,     obj_rect)
     pygame.display.flip()
-
     clock.tick(60)
 
-
 pygame.quit()
-exit()
