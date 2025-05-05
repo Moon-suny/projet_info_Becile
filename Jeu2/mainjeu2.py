@@ -1,5 +1,7 @@
 import pygame
 import random 
+import os
+import subprocess
 from pygame.locals import *
 #from PIL import Image, ImageSequence
 
@@ -113,14 +115,17 @@ while running:
             tonneau_lance = False
     if tonneau_lance and player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
         print("game over")
-        pygame.time.delay (1000)
+        win = False
         running = False
+
 
  #fin du jeu après 30 secondes
     if pygame.time.get_ticks() > 30000 :
         print("win")
-        pygame.time.delay(1000)
+        win = True
         running = False
+
+        
 
     # Affichage
     screen.fill((224, 176, 255 ))
@@ -133,3 +138,10 @@ while running:
     pygame.display.update()  
 
 pygame.quit()
+
+if win:
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-3.py')
+    subprocess.run(['python', chemin]) 
+else:
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-4.py')
+    subprocess.run(['python', chemin])

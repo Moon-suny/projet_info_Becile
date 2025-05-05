@@ -1,15 +1,16 @@
 import pygame
 import pygame_gui
-import subprocess
 import os
-import time
-
-def lancementJ3():
-    #print("Lancement du jeu 3")
-    chemin = os.path.abspath('../projet_info_Becile/Jeu3/Jeu3.py')
-    subprocess.run(['python', chemin])
+import subprocess
+import time as time
 
 pygame.init()
+
+def lancement():
+    #print("Lancement du jeu 1")
+    chemin = os.path.abspath('../projet_info_Becile/Jeu2/mainjeu2.py')
+    subprocess.run(['python', chemin])
+
 
 # Set up the game window
 screen_width, screen_height = 1000, 800
@@ -32,6 +33,17 @@ dialogue_box = False
 # Pygame GUI manager
 manager = pygame_gui.UIManager((screen_width, screen_height))
 
+
+
+# Création buton suivant
+button2_width = 100
+button2_height = 30
+button2_x = dialogue_box_x + dialogue_box_width*0.95 - button2_width
+button2_y = dialogue_box_y + dialogue_box_height*0.95 - button2_height
+button2 = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(button2_x, button2_y, button2_width, button2_height),
+                                      text='*GRAO*',
+                                      manager=manager)
+
 #création du background
 background = pygame.image.load("Cinematique/img/intérieur-navire.png").convert_alpha()
 background = pygame.transform.scale(background, (screen_width, screen_height))
@@ -48,33 +60,28 @@ Joueur = pygame.transform.scale(Joueur, (200, 100))
 Joeur_rect = Joueur.get_rect()
 
 
-# creation button
-button1_width = 100
-button1_height = 30
-button1_x = dialogue_box_x + dialogue_box_width*0.95 - button1_width
-button1_y = dialogue_box_y + dialogue_box_height*0.95 - button1_height
-button1 = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(button1_x, button1_y, button1_width, button1_height),
-                                      text='*Pffffffff*',
-                                      manager=manager)
-
-
 running = True
 clock = pygame.time.Clock()
-dialogue_box = True
 
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        #if event.type == pygame.MOUSEBUTTONDOWN:
+        #    posmouse = pygame.mouse.get_pos()
+        #    print(posmouse)
+   
+   
         manager.process_events(event)
 
     keys = pygame.key.get_pressed()
-   
+    dialogue_box = True
 
     # Draw the background
     screen.blit(background, background_rect)
 
+    
     if dialogue_box:
         pygame.draw.rect(screen, GRAY, (dialogue_box_x, 
                                         dialogue_box_y, 
@@ -89,23 +96,26 @@ while running:
         manager.draw_ui(screen)
 
 
-        text = "NANNNN ON A LAISSER MES BRAS AVEC CE FOU !\n\n On y retourne !"
+        text = "On a perdu !\n\nOn y retourne !"
         rendered_text = pygame.font.Font(None, 24).render(text, True, WHITE)
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
                                                    dialogue_box_y + dialogue_box_height // 2))
 
-        if button1.check_pressed():
-            pygame.quit()
-            lancementJ3()
-            running = False
-            
-
-        # Draw the character
+        #Draw the character
         screen.blit(becile, (dialogue_box_x + dialogue_box_width*0.05, dialogue_box_y - 100))
         screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - 200, dialogue_box_y - 100))  
 
-        screen.blit(rendered_text, text_rect)
-        pygame.display.flip()
-        clock.tick(60)
+    screen.blit(rendered_text, text_rect)
+    pygame.display.flip()
+    # Check if the buttons are clicked
+    if button2.check_pressed():
+        pygame.quit()
+        lancement()
+        running = False
+
+    clock.tick(60)
 
 pygame.quit()
+
+
+

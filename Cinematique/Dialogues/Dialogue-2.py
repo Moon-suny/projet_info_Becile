@@ -9,7 +9,6 @@ def apparition_vaiseau():
     subprocess.run(['python', chemin])
     time.sleep(0.2)
     global background
-    # Load the new background image
     background = pygame.image.load("Cinematique/img/intérieur-navire.png").convert_alpha()
     background = pygame.transform.scale(background, (screen_width, screen_height))
     background_rect = background.get_rect()
