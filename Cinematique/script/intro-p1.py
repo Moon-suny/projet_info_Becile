@@ -27,7 +27,7 @@ def lire_video():
         return
 
     # Redimensionner la vidéo à une taille plus petite
-    width, height = 640, 360
+    width, height = 1000, 800  # Dimensions de la fenêtre
 
     while True:
         ret, frame = video.read()

@@ -4,12 +4,15 @@ import os
 import subprocess
 from pygame.locals import *
 
-def lancement():
+def lancement_suite():
     #print("Lancement du Dialogue 5")
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-5.py')
     subprocess.run(['python', chemin])
 
-
+def lancement_relance():
+    #print("Lancement du Dialogue 6")
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-6.py')
+    subprocess.run(['python', chemin])
 
 pygame.init()
 W, H = 1000, 800
@@ -95,8 +98,8 @@ while running:
     for e in pygame.event.get():
         if e.type == QUIT:
             running = False
-        if e.type == MOUSEBUTTONDOWN:
-            print("Clic souris en", e.pos)
+        #if e.type == MOUSEBUTTONDOWN:
+        #    print("Clic souris en", e.pos)
 
     # --- Contrôles Joueur ---
     keys = pygame.key.get_pressed()
@@ -211,9 +214,10 @@ while running:
         poubelle_mask_coll = pygame.mask.from_surface(p["surf"])
         offset_collision = (int(poubelle_rect_coll.x - player_rect.x), int(poubelle_rect_coll.y - player_rect.y))
         if player_mask.overlap(poubelle_mask_coll, offset_collision):
-            print("GAME OVER - Collision avec une poubelle")
-            running = False # Stoppe la boucle de jeu
-            break # Sortir de la boucle des poubelles
+            pygame.quit()
+            lancement_relance()
+            running = False
+            break
 
         # Suppression des poubelles hors écran
         if p["y"] > H + p["surf"].get_height() or \
@@ -231,7 +235,8 @@ while running:
     if player_rect.left < 0: player_rect.left = 0
     if player_rect.right > W: player_rect.right = W
     if player_rect.top > H :
-        print("GAME OVER - Chute")
+        pygame.quit()
+        lancement_relance()
         running = False
 
 
@@ -249,11 +254,11 @@ while running:
         screen.blit(p["surf"], (draw_x, draw_y))
 
     pygame.display.flip()
-    
+
     # --- Objectif ---
     if player_rect.colliderect(obj_rect):
         pygame.quit()
-        lancement() # Lancer le dialogue 5
+        lancement_suite() # Lancer le dialogue 5
         running = False
 
 pygame.quit()
