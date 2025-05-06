@@ -16,7 +16,6 @@ GRAY = (128, 128, 128)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-screen.fill(BLACK)
 road_height = 200
 scroll_speed = 4
 nb_routes = 3
@@ -105,6 +104,8 @@ def game_over(message):
 player_mask = pygame.mask.from_surface(player_img)
 tonneau_mask = pygame.mask.from_surface(tonneau_img)
 
+
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -155,9 +156,9 @@ while running:
     
     #collision entre le tonneau et le player
     if player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
-        print("game over")
+        game_over("game over, veux tu recommencer?")
         
-        pygame.time.delay(1000)
+        pygame.time.delay(3000)
         running = False
 
     attente = True
@@ -181,7 +182,7 @@ while running:
 
     # Affichage
     
-    screen.fill(BLACK)
+    
 
     # routes
     line_x -= scroll_speed
