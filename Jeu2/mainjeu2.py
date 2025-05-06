@@ -65,7 +65,8 @@ tonneau_img = pygame.image.load("jeu2/img/poubelle.png")
 tonneau_x, tonneau_y = screen_x - 50, screen_y / 2
 tonneau_lance = False  # Savoir si le tonneau est lancé
 tonneau_img = pygame.transform.scale(tonneau_img, (40, 40))
-dechets_mask = pygame.mask.from_surface(tonneau_img)
+dechet_mask = pygame.mask.from_surface(tonneau_img)
+
 
 
 # Initialisation des obstacles à éviter
@@ -94,6 +95,7 @@ def ini_du_tire():
 
 #fonction de fin du jeu
 def game_over(message):
+    screen.fill(BLACK)
     font = pygame.font.SysFont("Arial", 30)
     texte = font.render(message, True, WHITE)
     screen.blit(texte, (screen_x // 2 - texte.get_width() // 2, screen_y // 2 - texte.get_height() // 2))
@@ -117,11 +119,11 @@ while running:
     if touches[K_LEFT] and player_x > 0:
         player_x -= speed_player
     if touches[K_RIGHT] and player_x < screen_x - player_taille_x:
-        player_x += speed_player + 0.25
+        player_x += speed_player
     if touches[K_UP] and player_y > 0:
-        player_y -= speed_player - 0.5
+        player_y -= speed_player
     if touches[K_DOWN] and player_y < screen_y - player_taille_y:
-        player_y += speed_player - 0.5
+        player_y +=  speed_player
 
     # Suivi du joueur
     time_act = pygame.time.get_ticks()
@@ -140,7 +142,6 @@ while running:
         dernier_dechet = pygame.time.get_ticks()
 
     for dechet in dechets:
-        dechet_x, dechet_y = dechet[0], dechet[1]
         dechet[0] -= 1.5  
         if dechet[0] < 0:
             dechets.remove(dechet)
@@ -155,25 +156,20 @@ while running:
             tonneau_lance = False
     
     #collision entre le tonneau et le player
-    if player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
-        game_over("game over, veux tu recommencer?")
-        
+    if player_mask.overlap(tonneau_mask, (tonneau_x - player_x, tonneau_y - player_y)):
+        game_over("tu t'es manger un grosse poubelle")
         pygame.time.delay(3000)
         running = False
 
-    attente = True
-    while attente:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.KEYDOWN:
-                attente = False
+    for dechet in dechets:
+        if player_mask.overlap(dechet_mask, (dechet[0] - player_x, dechet[1] - player_y)):
+            game_over("tu t'es manger un grosse poubelle")
+            pygame.time.delay(3000)
+            running = False
 
 
     #fin du jeu après 30 secondes
     if pygame.time.get_ticks() > 30000 :
-        screen.fill(BLACK)
         game_over("tu as gagner")
         win = True
         running = False
@@ -182,7 +178,7 @@ while running:
 
     # Affichage
     
-    
+    screen.fill(BLACK)
 
     # routes
     line_x -= scroll_speed
