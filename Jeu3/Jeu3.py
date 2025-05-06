@@ -1,6 +1,15 @@
 import pygame
 import random
+import os
+import subprocess
 from pygame.locals import *
+
+def lancement():
+    #print("Lancement du Dialogue 5")
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-5.py')
+    subprocess.run(['python', chemin])
+
+
 
 pygame.init()
 W, H = 1000, 800
@@ -54,28 +63,28 @@ sol_surf.set_alpha(100)
 sol_mask = pygame.mask.from_surface(sol_surf)
 
 # --- Liste de chemins pour les poubelles ---
-trajectoire_principale = [
-    (204, 105), (202, 165), (600, 200), (615, 370), (450, 370),
-    (450, 381), (430, 546), (586, 561), (597, 734), (994, 739)
-]
-trajectoire_alternative = [(204, 105), (202, 165), (600, 200), (615, 370), (450, 370),
-    (450, 381), (430, 546), (282, 530), (270, 734), (994, 739)]
+trajectoire_principale = [(204, 105), (202, 165), (600, 200), (615, 370), (450, 370),(450, 381), (430, 546), (586, 561), (597, 734), (994, 739)]
 
+trajectoire_alternative = [(204, 105), (202, 165), (600, 200), (615, 370), (450, 370), (450, 381), (430, 546), (282, 530), (270, 734), (994, 739)]
 
 trajectoire_alternative2 = [(204, 105), (194,523), (282,530), (270, 734), (994, 739)]
+
+trajectoire_alternative3 = [(204, 105), (202, 165), (600, 200), (1000, 343) ]
+
 
 defined_paths = [
     trajectoire_principale,
     trajectoire_alternative,
-    trajectoire_alternative2, # Décommenter pour avoir plusieurs types de chemins
+    trajectoire_alternative2,
+    trajectoire_alternative3 # Décommenter pour avoir plusieurs types de chemins
 ]
 
 # --- Poubelles ---
 poubelles = []
 last_spawn_time = 0
-poubelle_spawn_interval = random.uniform(0.7, 1.4)
+poubelle_spawn_interval = 0
 poubelle_rotation_delay = 0.2
-poubelle_vitesse = 5.5
+poubelle_vitesse = 4.5
 
 clock = pygame.time.Clock()
 running = True
@@ -165,7 +174,7 @@ while running:
                     "current_target_idx": 0 
                 })
         last_spawn_time = 0
-        poubelle_spawn_interval = random.uniform(0.8, 1.2)
+        poubelle_spawn_interval = random.uniform(0.9, 1.5)
 
     # --- Mise à jour des Poubelles ---
     for p in poubelles[:]:
@@ -216,10 +225,7 @@ while running:
         break
 
 
-    # --- Objectif ---
-    if player_rect.colliderect(obj_rect):
-        print("Objectif atteint !")
-        running = False
+    
 
     # --- Limites écran Joueur ---
     if player_rect.left < 0: player_rect.left = 0
@@ -243,5 +249,11 @@ while running:
         screen.blit(p["surf"], (draw_x, draw_y))
 
     pygame.display.flip()
+    
+    # --- Objectif ---
+    if player_rect.colliderect(obj_rect):
+        pygame.quit()
+        lancement() # Lancer le dialogue 5
+        running = False
 
 pygame.quit()
