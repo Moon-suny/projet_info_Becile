@@ -11,6 +11,9 @@ def lancement():
     chemin = os.path.abspath('../projet_info_Becile/Jeu1/Main_Jeu_1.py')
     subprocess.run(['python', chemin])
 
+def lacementdébut():
+    chemin = os.path.abspath('../projet_info_Becile/Cinematique/script/intro-p1.py')
+    subprocess.run(['python', chemin])
 
 # Set up the game window
 screen_width, screen_height = 1000, 800
@@ -123,7 +126,9 @@ while running:
         running = False
         
     if button2.check_pressed():
-        pass
+        pygame.quit()
+        lacementdébut()
+        running = False
 
     clock.tick(60)
 

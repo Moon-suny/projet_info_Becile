@@ -38,8 +38,8 @@ background = pygame.transform.scale(background, (screen_width, screen_height))
 background_rect = background.get_rect()
 
 # Création du personnage
-becile = pygame.image.load("Cinematique/img/nainbecile.png").convert_alpha()
-becile = pygame.transform.scale(becile, (100, 100))
+becile = pygame.image.load("Cinematique/img/Tete_et_bras.png").convert_alpha()
+becile = pygame.transform.scale(becile, (250, 250))
 becile_rect = becile.get_rect()
 
 # Création du joeur
@@ -89,7 +89,7 @@ while running:
         manager.draw_ui(screen)
 
 
-        text = "NANNNN ON A LAISSER MES JAMBES AVEC CE FOU !\n\n On y retourne !"
+        text = "Yes mes bras! ...\n\n\n\nNANNNN ON A LAISSER MES JAMBES AVEC CE FOU !\n\n On y retourne !"
         rendered_text = pygame.font.Font(None, 24).render(text, True, WHITE)
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
                                                    dialogue_box_y + dialogue_box_height // 2))
@@ -101,7 +101,7 @@ while running:
             
 
         # Draw the character
-        screen.blit(becile, (dialogue_box_x + dialogue_box_width*0.05, dialogue_box_y - 100))
+        screen.blit(becile, (dialogue_box_x + dialogue_box_width*0.05, dialogue_box_y - 250))
         screen.blit(Joueur, (dialogue_box_x + dialogue_box_width*0.95 - 200, dialogue_box_y - 100))  
 
         screen.blit(rendered_text, text_rect)

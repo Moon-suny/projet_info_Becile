@@ -47,7 +47,7 @@ clock = pygame.time.Clock()
 # Initialisation du joueur
 player_img = pygame.image.load("jeu2/img/player_deux.png").convert_alpha()
 player_x, player_y = (100, screen_y / 2) 
-speed_player = 2  
+speed_player = 2.5  
 player_img = pygame.transform.scale(player_img, (200, 200))
 
 # Initialisation du méchant
@@ -72,7 +72,7 @@ dechet_mask = pygame.mask.from_surface(tonneau_img)
 # Initialisation des obstacles à éviter
 dechets = []
 dernier_dechet = -1000
-intervalle_dechet = 1500
+intervalle_dechet = 400 # Intervalle entre les déchets en millisecondes
 
 # Variables de temps pour le tir du projectile
 chargement_tire = 1000
@@ -142,7 +142,7 @@ while running:
         dernier_dechet = pygame.time.get_ticks()
 
     for dechet in dechets:
-        dechet[0] -= 1.5  
+        dechet[0] -= 5  # Vitesse de déplacement des déchets  
         if dechet[0] < 0:
             dechets.remove(dechet)
     
@@ -157,20 +157,21 @@ while running:
     
     #collision entre le tonneau et le player
     if player_mask.overlap(tonneau_mask, (tonneau_x - player_x, tonneau_y - player_y)):
-        game_over("tu t'es manger un grosse poubelle")
-        pygame.time.delay(3000)
+        #game_over("tu t'es manger un grosse poubelle")
+        #pygame.time.delay(1000)
+        win = False
         running = False
 
     for dechet in dechets:
         if player_mask.overlap(dechet_mask, (dechet[0] - player_x, dechet[1] - player_y)):
-            game_over("tu t'es manger un grosse poubelle")
-            pygame.time.delay(3000)
+            #game_over("tu t'es manger un grosse poubelle")
+            #pygame.time.delay(1000)
+            win = False
             running = False
 
 
     #fin du jeu après 30 secondes
     if pygame.time.get_ticks() > 30000 :
-        game_over("tu as gagner")
         win = True
         running = False
 

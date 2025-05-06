@@ -6,11 +6,6 @@ import time as time
 
 pygame.init()
 
-def lancement():
-    #print("Lancement du jeu 3")
-    chemin = os.path.abspath('../projet_info_Becile/Jeu3/Jeu3.py')
-    subprocess.run(['python', chemin])
-
 
 # Set up the game window
 screen_width, screen_height = 1000, 800
@@ -33,6 +28,8 @@ dialogue_box = False
 # Pygame GUI manager
 manager = pygame_gui.UIManager((screen_width, screen_height))
 
+logo = pygame.image.load("../projet_info_Becile/Cinematique/img/logo.png")
+logo = pygame.transform.scale(logo, (600, 400))  # redimensionne si besoin
 
 
 #création du background
@@ -162,10 +159,9 @@ while running:
             indice += 1
         
         if button4.check_pressed():
-            
+            pygame.quit()
             chemin = os.path.abspath('../projet_info_Becile/Cinematique/script/Générique.py')
             subprocess.run(['python', chemin])
-            pygame.quit()
             running = False
             
     clock.tick(60)
