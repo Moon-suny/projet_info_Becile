@@ -29,6 +29,11 @@ if os.path.exists("../projet_info_Becile/Cinematique/music/404_NOT_FOUND.mp3"):
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)  # boucle infinie
 
+#logo post générique
+logo = pygame.image.load("..\projet_info_Becile\Cinematique\img\Disque De bécile.jpg")
+logo = pygame.transform.scale(logo, (500, 500))  # redimensionne si besoin
+
+
 # Texte du générique
 credits_text = [
     "UN JEU FAIT AVEC AMOUR, PIXELS, ET UN PEU DE MALADRESSE PAR :",
@@ -116,6 +121,15 @@ scroll_y = HEIGHT
 running = True
 clock = pygame.time.Clock()
 bug_flash_timer = 0
+
+screen.fill(BLACK)
+logo_rect = logo.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+screen.blit(logo, logo_rect)
+pygame.display.flip()
+
+# Pause 2 secondes
+pygame.time.delay(2000)
+
 
 while running:
     screen.fill(BLACK)

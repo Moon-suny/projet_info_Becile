@@ -2,7 +2,14 @@ import pygame
 import random
 import os
 import subprocess
+import threading
+from pygame import mixer
 from pygame.locals import *
+
+# === Lancement de l'audio en fond ===
+def jouer_audio():
+    mixer.music.load(os.path.abspath('Jeu3\Eiffel 65 - Blue (Flume Remix) - Official Visualiser.mp3'))
+    mixer.music.play()
 
 def lancement_suite():
     #print("Lancement du Dialogue 5")
@@ -15,9 +22,16 @@ def lancement_relance():
     subprocess.run(['python', chemin])
 
 pygame.init()
+
+audio_thread = threading.Thread(target=jouer_audio)
+audio_thread.start()
+
 W, H = 1000, 800
 screen = pygame.display.set_mode((W, H))
 pygame.display.set_caption('Jeu 3')
+
+#--musique--
+
 
 PLAYER_SPEED = 4.5
 GRAVITY = 0.75
@@ -98,6 +112,7 @@ while running:
     for e in pygame.event.get():
         if e.type == QUIT:
             running = False
+            mixer.music.stop()
         #if e.type == MOUSEBUTTONDOWN:
         #    print("Clic souris en", e.pos)
 
@@ -217,6 +232,7 @@ while running:
             pygame.quit()
             lancement_relance()
             running = False
+            mixer.music.stop()
             break
 
         # Suppression des poubelles hors écran
@@ -238,6 +254,7 @@ while running:
         pygame.quit()
         lancement_relance()
         running = False
+        mixer.music.stop()
 
 
     # --- Affichage ---
@@ -260,5 +277,7 @@ while running:
         pygame.quit()
         lancement_suite() # Lancer le dialogue 5
         running = False
+        mixer.music.stop()
 
 pygame.quit()
+mixer.music.stop()
