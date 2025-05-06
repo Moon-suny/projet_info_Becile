@@ -89,7 +89,7 @@ while running:
         manager.draw_ui(screen)
 
 
-        text = "NANNNN ON A LAISSER MES BRAS AVEC CE FOU !\n\n On y retourne !"
+        text = "NANNNN ON A LAISSER MES JAMBES AVEC CE FOU !\n\n On y retourne !"
         rendered_text = pygame.font.Font(None, 24).render(text, True, WHITE)
         text_rect = rendered_text.get_rect(center=(dialogue_box_x + dialogue_box_width // 2,
                                                    dialogue_box_y + dialogue_box_height // 2))
