@@ -212,6 +212,8 @@ while running:
 
 pygame.quit()
 
+
+
 if win:
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-3.py')
     subprocess.run(['python', chemin]) 
