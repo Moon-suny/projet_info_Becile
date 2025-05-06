@@ -46,16 +46,15 @@ for i in range(nb_routes):
 clock = pygame.time.Clock()
 
 # Initialisation du joueur
-player_img = pygame.image.load("jeu2/img/le_nainbecile.png").convert_alpha()
-player_x, player_y = 100, screen_y / 2  # Position initiale
-speed_player = 2  # Vitesse du joueur
-player_img = pygame.transform.scale(player_img, (100, 100))
-zone_d_insertitude = 10
+player_img = pygame.image.load("jeu2/img/player_deux.png").convert_alpha()
+player_x, player_y = (100, screen_y / 2) 
+speed_player = 2  
+player_img = pygame.transform.scale(player_img, (200, 200))
 
 # Initialisation du méchant
 mechant_img = pygame.image.load("jeu2/img/scientifique_fou.png")
-mechant_x, mechant_y = screen_x - 80, 50  # Position initiale du méchant
-mechant_img = pygame.transform.scale(mechant_img, (100, 100))  # Taille du méchant
+mechant_x, mechant_y = (screen_x - 80, 50)
+mechant_img = pygame.transform.scale(mechant_img, (100, 100))  
 speed_mechant = 1.5
 
 # Ne pas suivre le joueur à la trace
@@ -90,9 +89,17 @@ tonneau_taille_x, tonneau_taille_y = tonneau_img.get_width(), tonneau_img.get_he
 def ini_du_tire():
     global tonneau_x, tonneau_y, tonneau_lance, dernier_tire
     if not tonneau_lance and pygame.time.get_ticks() - dernier_tire > chargement_tire:
-        tonneau_x, tonneau_y = mechant_x, mechant_y  # Position initiale sur le méchant
+        tonneau_x, tonneau_y = mechant_x, mechant_y 
         tonneau_lance = True
         dernier_tire = pygame.time.get_ticks()
+
+#fonction de fin du jeu
+def game_over(message):
+    font = pygame.font.SysFont("Arial", 30)
+    texte = font.render(message, True, WHITE)
+    screen.blit(texte, (screen_x // 2 - texte.get_width() // 2, screen_y // 2 - texte.get_height() // 2))
+    pygame.display.flip()
+
 
 # Création des masques
 player_mask = pygame.mask.from_surface(player_img)
@@ -137,8 +144,6 @@ while running:
         if dechet[0] < 0:
             dechets.remove(dechet)
     
-    offset_x = player_x - dechet_x
-    offset_y = player_y - dechet_y
 
     # Tir de tonneau
     if abs(player_y - mechant_y) < 20:
@@ -149,25 +154,36 @@ while running:
             tonneau_lance = False
     
     #collision entre le tonneau et le player
-    if player_mask.overlap(dechets_mask, (offset_x + zone_d_insertitude, offset_y + zone_d_insertitude)):
-        print("game over - collision avec un déchet")
+    if player_mask.overlap(tonneau_mask, (player_x - tonneau_x, player_y - tonneau_y)) :
+        print("game over")
+        
         pygame.time.delay(1000)
         running = False
 
+    attente = True
+    while attente:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                attente = False
 
 
- #fin du jeu après 30 secondes
+    #fin du jeu après 30 secondes
     if pygame.time.get_ticks() > 30000 :
-        print("win")
+        screen.fill(BLACK)
+        game_over("tu as gagner")
         win = True
         running = False
 
         
 
     # Affichage
+    
     screen.fill(BLACK)
 
-    #  plusieurs routes côte à côte 
+    # routes
     line_x -= scroll_speed
     if line_x <= -(line_length + line_spacing):
         line_x = 0
@@ -178,10 +194,7 @@ while running:
 
         x = line_x
         while x < screen_x:
-            pygame.draw.rect(screen, WHITE, (
-                x, road_top + road_height // 2 - line_width // 2,
-                line_length, line_width
-            ))
+            pygame.draw.rect(screen, WHITE, (x, road_top + road_height // 2 - line_width // 2, line_length, line_width))           
             x += line_length + line_spacing
 
     # Blit au-dessus de la route
@@ -205,4 +218,3 @@ if win:
 else:
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-4.py')
     subprocess.run(['python', chemin])
-
