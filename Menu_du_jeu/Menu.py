@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_
 
 # Importer les modules nécessaires
 from lib_jeu1_pygame import create_button, check_button_clicked, DEFAULT_BUTTON_COLOR # Importer les fonctions de gestion des boutons
-from lib_save_interaction import * # Importer les fonctions de sauvegarde et de chargement de partie
+from lib_save_jeu import * # Importer les fonctions de sauvegarde et de chargement de partie
 
 # Initialisation de Pygame
 pygame.init()
