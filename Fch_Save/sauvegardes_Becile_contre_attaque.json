@@ -1,4 +1,8 @@
 {
+    "parametre": {
+        "etat_sound": false,
+        "who_play": "Clement"
+    },
     "sauvegardes": {
         "Maxime": {
             "mini_jeu1": {
