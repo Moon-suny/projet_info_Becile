@@ -1,8 +1,13 @@
 import pygame
 import random
 import os
+import sys
 import subprocess 
 from pygame.locals import *
+
+# Importer le module de sauvegarde
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
+from lib_save_jeu import save_current_backup_json
 
 pygame.init()
 
@@ -213,8 +218,12 @@ pygame.quit()
 
 
 if win:
+    # Sauvegarde de l'avancer
+    save_current_backup_json(mini_jeu="mini_jeu2", niv_finish=True)
+    
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-3.py')
-    subprocess.run(['python', chemin]) 
+    subprocess.run(['python', chemin])
+
 else:
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-4.py')
     subprocess.run(['python', chemin])
