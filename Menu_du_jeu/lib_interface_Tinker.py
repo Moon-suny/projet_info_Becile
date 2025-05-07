@@ -5,7 +5,14 @@
 # ============================================================
 
 import tkinter as tk
+import json
+import os
+import sys
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
+from lib_save_jeu import update_parameter_json, load_data_json, delete_save_json, add_new_save_json # Importer les fonctions de sauvegarde et de chargement de partie
+
+action = True # Valeur par défaut pour le son (True = activé, False = désactivé)
 
 
 def sound_interface_tinker():
@@ -13,13 +20,19 @@ def sound_interface_tinker():
     Interface pour régler le son du jeu.
     Permet de choisir entre son activé ou désactivé.
     """
+    global action
+
     def valider_action():
         """
         Fonction de validation de l'action choisie.
-        Récupère la valeur sélectionnée et ferme la fenêtre.
+        Récupère la valeur sélectionnée (True ou False) et met à jour le paramètre JSON.
+        Ferme la fenêtre après validation.
         """
-        nonlocal action
-        action = var.get()
+        global action
+
+        action = var.get()  # Récupère la valeur sélectionnée (True ou False)
+        print(f"Action validée : {action}")
+        update_parameter_json(etat_sound=action, save_use="")  # Met à jour l'état du son
         fenetre.destroy()
 
     action = None
@@ -51,34 +64,89 @@ def sound_interface_tinker():
 
     fenetre.mainloop()
 
-    return action
+    return None
 
 
-def sauvegarde_interface():
+def save_interface_tinker():
     """
     Interface de gestion des sauvegardes.
     Permet de charger, supprimer ou créer une sauvegarde.
     """
+
     def charger_action():
         """
         Fonction de chargement d'une sauvegarde.
+        Vérifie si la sauvegarde existe et récupère le premier jeu non terminé.
         """
-        print("Charger action exécutée")
-        # Ajoutez ici le code pour charger une sauvegarde
+        texte_recherche = barre_recherche.get()
+        print(f"Charger action exécutée pour : {texte_recherche}")
+
+        # Charger les données du fichier JSON
+        data = load_data_json()
+
+        # Vérifier si la sauvegarde existe
+        if texte_recherche not in data.get("sauvegardes", {}):
+            print("Sauvegarde introuvable")
+            
+            fenetre.destroy()
+            return save_interface_tinker()  # Rappeler l'interface de sauvegarde
+
+        # Mettre à jour le paramètre JSON
+        update_parameter_json(etat_sound=action, save_use=texte_recherche)
+
+        # Récupérer les données de la sauvegarde
+        sauvegarde = data["sauvegardes"][texte_recherche]
+
+        # Vérifier l'avancement des jeux
+        for jeu, details in sauvegarde.items():
+            if not details.get("niv_finish", True):  # Si le niveau n'est pas terminé
+
+                print(f"Premier jeu non terminé : {jeu}")
+
+                if jeu == "mini_jeu1":
+                    # Appeler la fonction de chargement du mini-jeu 1
+                    print("Chargement du mini_jeu_1...")
+                    # Ajoutez ici le code pour charger le mini-jeu 1
+
+                    break # Sortir de la boucle après le premier jeu non terminé
+                    
+                elif jeu == "mini_jeu2":
+                    # Appeler la fonction de chargement du mini-jeu 2
+                    print("Chargement du mini_jeu_2...")
+                    # Ajoutez ici le code pour charger le mini-jeu 2
+
+                    break # Sortir de la boucle après le premier jeu non terminé
+                
+                elif jeu == "mini_jeu3":
+                    # Appeler la fonction de chargement du mini-jeu 3
+                    print("Chargement du mini_jeu_3...")
+                    # Ajoutez ici le code pour charger le mini-jeu 3
+
+                    break # Sortir de la boucle après le premier jeu non terminé
+
+            
+        print(f"Toutes les étapes pour {texte_recherche} sont déjà terminées.")
+        
+        fenetre.destroy()
+
 
     def supprimer_action():
         """
         Fonction de suppression d'une sauvegarde.
         """
-        print("Supprimer action exécutée")
-        # Ajoutez ici le code pour supprimer une sauvegarde
+        texte_recherche = barre_recherche.get()
+        print(f"Suppresion action exécutée pour : {texte_recherche}")
+        delete_save_json(texte_recherche) # Appel de la fonction de suppression de sauvegarde
+        fenetre.destroy()
 
     def nouvelle_action():
         """
         Fonction de création d'une nouvelle sauvegarde.
         """
-        print("Nouvelle action exécutée")
-        # Ajoutez ici le code pour créer une nouvelle sauvegarde
+        texte_recherche = barre_recherche.get()
+        print(f"Nouvelle action exécutée pour : {texte_recherche}")
+        add_new_save_json(texte_recherche) # Appel de la fonction d'ajout de nouvelle sauvegarde
+        fenetre.destroy()
 
     fenetre = tk.Tk()
     fenetre.title("Sauvegarde")
@@ -116,4 +184,4 @@ def sauvegarde_interface():
 
     fenetre.mainloop()
 
-    return None  # Ou une valeur par défaut si nécessaire
+    return None

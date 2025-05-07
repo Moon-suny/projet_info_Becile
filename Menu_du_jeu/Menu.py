@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_
 # Importer les modules nécessaires
 from lib_jeu1_pygame import create_button, check_button_clicked, DEFAULT_BUTTON_COLOR # Importer les fonctions de gestion des boutons
 from lib_save_jeu import * # Importer les fonctions de sauvegarde et de chargement de partie
+from lib_interface_Tinker import sound_interface_tinker, save_interface_tinker # Importer les fonctions d'interface utilisateur
 
 # Initialisation de Pygame
 pygame.init()
@@ -72,16 +73,16 @@ def menu():
                     if check_button_clicked(button["rect"], event):
 
                         if button["name"] == "Nouvelle Partie":
-                            print("Nouvelle Partie sélectionnée.")
-                            # Ajoutez ici la logique pour démarrer une nouvelle partie
+                            #print("Nouvelle Partie sélectionnée.")
+                            save_interface_tinker()  # Appel de l'interface de sauvegarde
 
                         elif button["name"] == "Charger Partie":
-                            print("Charger Partie sélectionnée.")
-                            # Ajoutez ici la logique pour charger une partie
+                            #print("Charger Partie sélectionnée.")
+                            save_interface_tinker()  # Appel de l'interface de sauvegarde
 
                         elif button["name"] == "Options":
-                            print("Options sélectionnées. (pas d'options pour l'instant)")
-                            # Ajoutez ici la logique pour afficher les options
+                            #print("Options sélectionnées. (pas d'options pour l'instant)")
+                            sound_interface_tinker()  # Appel de l'interface de son
 
                         elif button["name"] == "Quitter":
                             print("Bye bye !")
