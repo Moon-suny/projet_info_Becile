@@ -1,7 +1,7 @@
 {
     "parametre": {
         "etat_sound": true,
-        "who_play": "Clement"
+        "who_play": "Maxime"
     },
     "sauvegardes": {
         "Maxime": {
@@ -28,13 +28,13 @@
         },
         "Clement": {
             "mini_jeu1": {
-                "niv_finish": true
+                "niv_finish": false
             },
             "mini_jeu2": {
-                "niv_finish": true
+                "niv_finish": false
             },
             "mini_jeu3": {
-                "niv_finish": true
+                "niv_finish": false
             }
         }
     }
