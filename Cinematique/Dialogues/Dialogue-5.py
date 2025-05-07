@@ -28,8 +28,8 @@ dialogue_box = False
 # Pygame GUI manager
 manager = pygame_gui.UIManager((screen_width, screen_height))
 
-logo = pygame.image.load("../projet_info_Becile/Cinematique/img/logo.png")
-logo = pygame.transform.scale(logo, (600, 400))  # redimensionne si besoin
+logo = pygame.image.load("../projet_info_Becile/Cinematique/img/Disque De bécile.jpg").convert_alpha()
+logo = pygame.transform.scale(logo, (200, 200))  # redimensionne si besoin
 
 
 #création du background

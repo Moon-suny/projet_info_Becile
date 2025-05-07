@@ -11,7 +11,6 @@ from pygame.locals import *
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
 from lib_save_jeu import save_current_backup_json
 
-
 pygame.init()
 mixer.init()
 
@@ -23,20 +22,22 @@ def jouer_audio():
 def lancement_suite():
     # Sauvegarde de l'avancer
     save_current_backup_json(mini_jeu="mini_jeu3", niv_finish=True)
-    #arrêter la musique
-    mixer.music.stop()
+
     #print("Lancement du Dialogue 5")
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-5.py')
     subprocess.run(['python', chemin])
+    #arrêter la musique
+    stop_music()
 
 def lancement_relance():
     #arrêter la musique
-    mixer.music.stop()
-    #print("Lancement du Dialogue 6")
+    stop_music()
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-6.py')
     subprocess.run(['python', chemin])
 
-
+def stop_music():
+    if mixer.get_init():
+        mixer.music.stop()
 
 W, H = 1000, 800
 screen = pygame.display.set_mode((W, H))
@@ -89,7 +90,7 @@ barre_mask = pygame.mask.from_surface(barre_surf)
 sol_rect = pygame.Rect(0, H - SOL_HEIGHT, W, SOL_HEIGHT)
 sol_surf = pygame.Surface((W, SOL_HEIGHT))
 sol_surf.fill((100, 100, 100))
-sol_surf.set_alpha(100) 
+sol_surf.set_alpha(100)
 sol_mask = pygame.mask.from_surface(sol_surf)
 
 # --- Liste de chemins pour les poubelles ---
@@ -100,7 +101,6 @@ trajectoire_alternative = [(204, 105), (202, 165), (600, 200), (615, 370), (450,
 trajectoire_alternative2 = [(204, 105), (194,523), (282,530), (270, 734), (994, 739)]
 
 trajectoire_alternative3 = [(204, 105), (202, 165), (600, 200), (1000, 343) ]
-
 
 defined_paths = [
     trajectoire_principale,
@@ -125,7 +125,7 @@ while running:
     for e in pygame.event.get():
         if e.type == QUIT:
             running = False
-            mixer.music.stop()
+            stop_music()
         #if e.type == MOUSEBUTTONDOWN:
         #    print("Clic souris en", e.pos)
 
@@ -141,7 +141,7 @@ while running:
     if keys[K_UP] and on_ground:
         vy = JUMP_STRENGTH
         on_ground = False
-    
+
     if facing_right:
         player_surf = player_img_right
     elif not facing_right:
@@ -161,7 +161,7 @@ while running:
         y_mask_collision = overlap_h[1]
         cutoff_collision = int(player_h * 0.75)
         if y_mask_collision < cutoff_collision:
-            player_rect.x -= player_dx 
+            player_rect.x -= player_dx
 
     # Déplacement vertical et collision
     player_rect.y += int(vy)
@@ -202,7 +202,7 @@ while running:
                     "surf": poubelle_orig.copy(),
                     "rotation_timer": 0,
                     "path_points": chosen_path_points,
-                    "current_target_idx": 0 
+                    "current_target_idx": 0
                 })
         last_spawn_time = 0
         poubelle_spawn_interval = random.uniform(0.9, 1.5)
@@ -221,7 +221,7 @@ while running:
         if current_idx + 1 < len(assigned_path):
             current_pos_x, current_pos_y = p["x"], p["y"]
             target_pos_x, target_pos_y = assigned_path[current_idx + 1]
-            
+
             vec_dx = target_pos_x - current_pos_x
             vec_dy = target_pos_y - current_pos_y
             dist = (vec_dx**2 + vec_dy**2)**0.5
@@ -252,12 +252,9 @@ while running:
            p["x"] > W + p["surf"].get_width() or \
            p["x"] < -p["surf"].get_width():
             poubelles.remove(p)
-            
+
     if not running: # Si une condition de fin de jeu a été rencontrée plus tôt
         break
-
-
-    
 
     # --- Limites écran Joueur ---
     if player_rect.left < 0: player_rect.left = 0
@@ -266,8 +263,6 @@ while running:
         pygame.quit()
         lancement_relance()
         running = False
-        
-
 
     # --- Affichage ---
     screen.blit(bg_surf, (0, 0))
@@ -289,6 +284,5 @@ while running:
         pygame.quit()
         lancement_suite() # Lancer le dialogue 5
         running = False
-    
 
 pygame.quit()
