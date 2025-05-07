@@ -7,6 +7,7 @@
 import tkinter as tk
 import json
 import os
+import subprocess
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
@@ -107,6 +108,8 @@ def save_interface_tinker():
                     # Appeler la fonction de chargement du mini-jeu 1
                     print("Chargement du mini_jeu_1...")
                     # Ajoutez ici le code pour charger l'intro
+                    chemin = os.path.abspath('..\projet_info_Becile\Cinematique\Dialogues\Dialogue-2.py')
+                    subprocess.run(['python', chemin])
 
                     break # Sortir de la boucle après le premier jeu non terminé
                     
@@ -114,14 +117,16 @@ def save_interface_tinker():
                     # Appeler la fonction de chargement du mini-jeu 2
                     print("Chargement du mini_jeu_2...")
                     # Ajoutez ici le code pour charger dialogue avant le mini-jeu 2
-
+                    chemin = os.path.abspath('..\projet_info_Becile\Cinematique\Dialogues\Dialogue-2.py')
+                    subprocess.run(['python', chemin])
                     break # Sortir de la boucle après le premier jeu non terminé
                 
                 elif jeu == "mini_jeu3":
                     # Appeler la fonction de chargement du mini-jeu 3
                     print("Chargement du mini_jeu_3...")
                     # Ajoutez ici le code pour charger dialogue avant le mini-jeu 3
-
+                    chemin = os.path.abspath('..\projet_info_Becile\Cinematique\Dialogues\Dialogue-3.py')
+                    subprocess.run(['python', chemin])
                     break # Sortir de la boucle après le premier jeu non terminé
 
             

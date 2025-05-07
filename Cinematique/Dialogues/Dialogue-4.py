@@ -7,7 +7,7 @@ import time as time
 pygame.init()
 
 def lancement():
-    #print("Lancement du jeu 1")
+    #print("Lancement du jeu 2")
     chemin = os.path.abspath('../projet_info_Becile/Jeu2/mainjeu2.py')
     subprocess.run(['python', chemin])
 

@@ -1,6 +1,7 @@
 import pygame
 import random
 import os
+import sys
 import subprocess
 import threading
 from pygame import mixer
@@ -10,35 +11,40 @@ from pygame.locals import *
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
 from lib_save_jeu import save_current_backup_json
 
+
+pygame.init()
+mixer.init()
+
 # === Lancement de l'audio en fond ===
 def jouer_audio():
-    mixer.music.load(os.path.abspath('Jeu3\Eiffel 65 - Blue (Flume Remix) - Official Visualiser.mp3'))
+    mixer.music.load(os.path.abspath('Jeu3/Eiffel 65 - Blue (Flume Remix) - Official Visualiser.mp3'))
     mixer.music.play()
 
 def lancement_suite():
     # Sauvegarde de l'avancer
-    save_current_backup_json(mini_jeu="mini_jeu1", niv_finish=True)
-    
+    save_current_backup_json(mini_jeu="mini_jeu3", niv_finish=True)
+    #arrêter la musique
+    mixer.music.stop()
     #print("Lancement du Dialogue 5")
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-5.py')
     subprocess.run(['python', chemin])
 
 def lancement_relance():
+    #arrêter la musique
+    mixer.music.stop()
     #print("Lancement du Dialogue 6")
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-6.py')
     subprocess.run(['python', chemin])
 
-pygame.init()
 
-audio_thread = threading.Thread(target=jouer_audio)
-audio_thread.start()
 
 W, H = 1000, 800
 screen = pygame.display.set_mode((W, H))
 pygame.display.set_caption('Jeu 3')
 
 #--musique--
-
+audio_thread = threading.Thread(target=jouer_audio)
+audio_thread.start()
 
 PLAYER_SPEED = 4.5
 GRAVITY = 0.75
@@ -239,7 +245,6 @@ while running:
             pygame.quit()
             lancement_relance()
             running = False
-            mixer.music.stop()
             break
 
         # Suppression des poubelles hors écran
@@ -261,7 +266,7 @@ while running:
         pygame.quit()
         lancement_relance()
         running = False
-        mixer.music.stop()
+        
 
 
     # --- Affichage ---
@@ -284,7 +289,6 @@ while running:
         pygame.quit()
         lancement_suite() # Lancer le dialogue 5
         running = False
-        mixer.music.stop()
+    
 
 pygame.quit()
-mixer.music.stop()
