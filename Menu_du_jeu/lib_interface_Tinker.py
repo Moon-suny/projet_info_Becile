@@ -87,7 +87,7 @@ def save_interface_tinker():
         # Vérifier si la sauvegarde existe
         if texte_recherche not in data.get("sauvegardes", {}):
             print("Sauvegarde introuvable")
-            
+
             fenetre.destroy()
             return save_interface_tinker()  # Rappeler l'interface de sauvegarde
 
@@ -106,21 +106,21 @@ def save_interface_tinker():
                 if jeu == "mini_jeu1":
                     # Appeler la fonction de chargement du mini-jeu 1
                     print("Chargement du mini_jeu_1...")
-                    # Ajoutez ici le code pour charger le mini-jeu 1
+                    # Ajoutez ici le code pour charger l'intro
 
                     break # Sortir de la boucle après le premier jeu non terminé
                     
                 elif jeu == "mini_jeu2":
                     # Appeler la fonction de chargement du mini-jeu 2
                     print("Chargement du mini_jeu_2...")
-                    # Ajoutez ici le code pour charger le mini-jeu 2
+                    # Ajoutez ici le code pour charger dialogue avant le mini-jeu 2
 
                     break # Sortir de la boucle après le premier jeu non terminé
                 
                 elif jeu == "mini_jeu3":
                     # Appeler la fonction de chargement du mini-jeu 3
                     print("Chargement du mini_jeu_3...")
-                    # Ajoutez ici le code pour charger le mini-jeu 3
+                    # Ajoutez ici le code pour charger dialogue avant le mini-jeu 3
 
                     break # Sortir de la boucle après le premier jeu non terminé
 
