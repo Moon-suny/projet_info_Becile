@@ -4,6 +4,7 @@ import random
 import os
 import time as time
 import subprocess
+from pygame.locals import *
 from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, handle_cable_animation, DEFAULT_BUTTON_COLOR
 
 # Importer le module de sauvegarde
