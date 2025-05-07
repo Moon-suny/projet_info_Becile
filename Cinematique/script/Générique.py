@@ -52,19 +52,45 @@ credits_text = [
     "",
     "UN HOMMAGE À :",
     "- TOUS LES JOUEURS QUI ONT ESSAYÉ DE COMPRENDRE L’HISTOIRE",
-    "(désolé pour les 14 niveaux de flashback inutiles)",
     "- CEUX QUI ONT TROUVÉ LE NIVEAU CACHÉ EN TOMBANT PAR ERREUR",
     "- LES TESTEURS QUI ONT SIGNALÉ DES BUGS… IGNORÉS AVEC AMOUR",
+    "",
     "",
     "BUG SYSTEM DETECTED...",
     "> Tentative de chargement du DLC “Bécile à la plage” échouée.",
     "> Erreur 404 : palmiers non trouvés.",
     "> Reboot dans 3… 2… *1.5*... *banane*",
     "",
+    "",
     "\"Par les créateurs de Bécile Contre-Attaque, découvrez bientôt :",
+    "",
     " Bécile 2 : La Revanche du Bug",
+    "",
     " Bécile Kart Deluxe Moisi",
+    "",
+    " Bécile : le retour de bécile",
+    "",
+    " Bécile les origines",
+    "",
+    " Bécile : le film"
+    "",
+    " Bécile : le film 2"
+    "",
     " Super Bécile Maker : Crée ton propre désastre\"",
+    "",
+    "",
+    "",
+    "DANS LE RÔLE DE :",
+    "",
+    "Bécile : Bécile",
+    "Le scientifique fou : Hugo (le voisin d'en face)",
+    "la petit créature : pass-partout"
+    "Le dealer de poker : Marco Marincovik ",
+    "Batman : Bruce Wayne",
+    "Le président : Emmanuel Macron",
+    "L'homme qui sait tout : Chat GPT",
+    "Le beau gosse de développeur : Maxime et Clément",
+    "",
     "",
     "Bécile vous remercie.",
     "(Enfin… il vous observe. C’est déjà pas mal.)",
@@ -152,7 +178,7 @@ while running:
         y = scroll_y + i * line_spacing
         screen.blit(surface, (pos_x, y))
 
-    scroll_y -= 1.5 #vitee de défilement
+    scroll_y -= 0.75 #vitee de défilement
 
     if scroll_y + text_height < 0:
         running = False
