@@ -6,12 +6,19 @@ import threading
 from pygame import mixer
 from pygame.locals import *
 
+# Importer le module de sauvegarde
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
+from lib_save_jeu import save_current_backup_json
+
 # === Lancement de l'audio en fond ===
 def jouer_audio():
     mixer.music.load(os.path.abspath('Jeu3\Eiffel 65 - Blue (Flume Remix) - Official Visualiser.mp3'))
     mixer.music.play()
 
 def lancement_suite():
+    # Sauvegarde de l'avancer
+    save_current_backup_json(mini_jeu="mini_jeu1", niv_finish=True)
+    
     #print("Lancement du Dialogue 5")
     chemin = os.path.abspath('../projet_info_Becile/Cinematique/Dialogues/Dialogue-5.py')
     subprocess.run(['python', chemin])
