@@ -6,6 +6,11 @@ import time as time
 import subprocess
 from lib_jeu1_pygame import create_button, check_button_clicked, check_response, draw_progress_bar, shuffle_positions, handle_cable_animation, DEFAULT_BUTTON_COLOR
 
+# Importer le module de sauvegarde
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../Fch_Save")))
+from lib_save_jeu import save_current_backup_json
+
+
 # Initialisation de Pygame
 pygame.init()
 
@@ -271,6 +276,10 @@ def main():
             time.sleep(12)
             print("je suis passer par ici")
             pygame.quit()
+
+            # Sauvegarde de l'avancer
+            save_current_backup_json(mini_jeu="mini_jeu1", niv_finish=True)
+
             # Lancer le script Dialogue-2.py
             chemin = os.path.abspath('Cinematique\Dialogues\Dialogue-2.py')
             subprocess.run(['python', chemin])
